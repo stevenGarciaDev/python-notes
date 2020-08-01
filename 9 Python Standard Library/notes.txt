@@ -234,6 +234,116 @@ opening the browser
 
 sending emails
 
+	How to send emails in Python,
+
+	this is useful if you have a database of Customers and you want to send emails based on 
+	their interests.
+
+	so import some classes,
+	and the other to connect to an SMTP server for sending emails 
+
+
+	from email.mime.multipart import MIMEMultipart 
+
+	// email package
+	// within subpackage mime 
+
+	// Multi-Purpose Intermet Mail Extentions
+	// this is the standard that defines the format for email messages 
+
+	// here is a subpackage, multipart 
+	// that exposes a class, MIMEMultipart
+
+	// with that object, you can send an Email message that includes 
+	// both HTML and plain text content 
+
+	So it can render HTML content or plain text content 
+
+	---
+	---
+	from email.mime.multipart import MIMEMultipart 
+	from email.mime.text import MIMEText
+	import smtplib 
+
+	message = MIMEMultipart()
+	// set various headers 
+
+	message["from"] = "Steven Garcia"
+	message["to"] = "testuser@codewithmosh.com"
+	message["subject"] = "This is a test"
+
+	// to set the body, you need to attach it to this message 
+	// attach() has a arg for the payload,
+	// which could be text, an image, or other resources supported by the MIME protocol 
+	message.attach(MIMEText("Body"))
+
+	// pass two keyword arguments
+	// so the values we set here depend on the SMTP server that you use 
+
+	// this returns an SMTP object
+	smtp = smtplib.SMTP(host="smtp.gmail.com", port=587)
+
+	// be sure to close it, to release that resource 
+	smtp.close()
+
+
+	// or could do 
+
+	with smtplib.SMTP(host="smtp.gmail.com", port=587) as smtp 
+		smtp.ehlo()
+		smtp.starttls()
+		smtp.login("testuser@codewithmosh.com", "password123")
+		smtp.send_message(message)
+		print("Sent...")
+
+	--
+	then some steps to follow before sending an email 
+
+	ehlo is hello, greeting to the SMTP server,
+	we are telling the SMTP server,
+	"hey I'm a client and I want to send an email"
+
+	this is part of SMTP protocol 
+
+	communciation between client and SMTP server,
+
+	so .starttls()
+	puts SMPT connection 
+	in tls mode 
+
+	tls stands for transport layer security 
+
+	with this,
+	all the commands that we sent to the SMTP server 
+	will be encrypted 
+
+	now ready to login
+
+
+	if you want to send HTML content, pass actual html 
+	
+		message.attach(MIMEText("<h1>Hello World</h1", "html")
+
+
+
+	BE sure to handle exceptions by wrapping everything in a try - catch block 
+
+	-
+	To attach an image 
+
+
+	from email.mime.image import MIMEImage
+	// have image in the same directory for example 
+
+	from pathlib import Path
+	// need to pass an image object in binary 
+	// so need our Path class 
+
+	message.attach(MIMEImage(Path("mosh.png").read_bytes()))
+
+
+
+
 templates
 
 command-line arguments
