@@ -1,0 +1,1050 @@
+classes
+
+creating classes
+
+constructors
+
+class vs instance attributes
+
+class vs instance methods
+
+magic methods
+
+comparing objects
+
+performing arithmetic operations
+
+making custom containers
+
+private members
+
+properties
+
+inheritance
+
+the object class
+
+method overriding
+
+multi-level inheritance
+
+multiple inheritance
+
+a good example of inheritance
+
+abstract base classes
+
+polymorphism
+
+duck typing
+
+extending built-in types
+
+data classes
+
+/* -------
+
+classes
+
+	ex:
+
+	numbers = [1, 2]
+
+	create an object,
+
+	shopping_cart
+	as to use the methods
+
+		.add()
+		.getTotal()
+		.remove()
+
+		ect
+
+	a class is a blueprint
+	for creating new objects
+
+	x = 1
+	print(type(x))
+
+
+
+creating classes
+
+	use upper camel case
+	known as Pascal naming notation
+
+
+	class Point:
+		def draw(self):
+			print("draw")
+
+	# this creates a class,
+	# simply call it like a function
+	# it'll have other methods through
+	# inheritance
+	# by its very nature of being
+	# an object
+	Point()
+
+	print(type(point))
+
+	# boolean result to find if an object
+	# is an instance of a given class
+	isinstance(point, Point)
+
+constructors
+
+	so the 'self' keyword is a reference
+	to the current point object
+
+	// the point object of self,
+	// is done behind the scenes
+	// its use is to access instance variables
+
+
+	class Point:
+		def __init__(self, x, y):
+			self.x = x
+			self.y = y
+
+		def draw(self):
+			print(f"Point ({self.x}, {self.y})")
+
+
+	point = Point(1, 2)
+	print(point.x)
+
+	point.draw()
+
+
+	don't need to pass in an arg
+	for the 'self' param
+	as Python does that by default
+
+	it's unneccessary
+
+	so all methods must have first
+	param
+	be self,
+
+	this is to enable that method
+	to access its' instances
+	instance variables
+
+
+
+class vs instance attributes
+
+
+	class Point:
+		def __init__(self, x, y):
+			self.x = x
+			self.y = y
+
+		def draw(self):
+			print(f"Point ({self.x}, {self.y})")
+
+
+	variables are dynamic,
+	don't need to define all
+	instance variables in the
+	constructor
+
+	you can create them as needed
+	and when appropriate
+
+
+	another = Point(3, 4)
+	another.draw()
+
+	class Point:
+		# this is a class level attribute
+		# accessible through class
+		default_color = "blue"
+
+		def __init__(self, x, y):
+			self.x = x
+			self.y = y
+
+		def draw(self):
+			print(f"Point ({self.x}, {self.y})")
+
+
+	print(another.default_color)
+	print(Point.default_color)
+
+	Point.default_color = "yellow"
+	// this changes it for all instances
+
+	if change a class variable,
+	that change occurs for all other
+	instances
+
+
+
+class vs instance methods
+
+	class Point:
+		def __init__(self, x, y):
+			self.x = x
+			self.y = y
+
+		def draw(self):
+			print(f"Point ({self.x}, {self.y})")
+
+
+	methods that create a new object
+	are referred to as a
+	factory method
+
+
+	by convention,
+	class methods first param is
+	cls,
+	you can actually call this whatever
+	you want
+
+
+	you make it a class method,
+	decorate it with
+
+	@classmethod
+
+	it's a decorator and it's a way
+	to extend the behavior
+	of a method or function
+
+
+	class Point:
+		def __init__(self, x, y):
+			self.x = x
+			self.y = y
+
+		@classmethod
+		def zero(cls):
+			return cls(0, 0)
+
+		def draw(self):
+			print(f"Point ({self.x}, {self.y})")
+
+
+	Python interpreter will
+	automatically pass a reference
+	of the Point class to the cls
+	param
+	due to the decorator
+
+
+	point = Point.zero()
+
+
+magic methods
+
+	call automatically
+	by the Python intepreter
+	depending on how you use
+	your objects and classes
+
+	__init__
+	called upon creating new instance
+
+	search for
+	Python 3 magic methods
+
+	# to see a complete list
+
+	class Point:
+		def __init__(self, x, y):
+			self.x = x
+			self.y = y
+
+		@classmethod
+		def zero(cls):
+			return cls(0, 0)
+
+		def draw(self):
+			print(f"Point ({self.x}, {self.y})")
+
+		def __str__(self):
+			return f"({self.x}, {self.y})")
+
+
+	point = Point(1, 2)
+	print(point)
+	# so this will convert it to a
+	# str by calling the __str__
+
+	would also be invoked for casting
+
+	str(point)
+
+
+
+
+comparing objects
+
+	if create two different objects
+	with same instance values,
+
+	comparison would be false
+
+	as equality compares
+	the references, or the addresses
+	in memory
+
+	point = Point(1, 2)
+	other = Point(1, 2)
+	print(point == other)
+
+
+	class Point:
+		....
+
+		# return true if equal,
+
+		def __eq__(self, other):
+			return self.x == other.x and self.y == other.y
+
+
+	ok, what if use > operator
+
+	need to define another magic method
+
+	# greater than
+	__gt__
+
+	class Point:
+		...
+
+		def __gt__(self, other):
+			return self.x > other.x and self.y > other.y
+
+	so when implement __gt__
+	then Python will automatically
+	implement its opposite
+
+	__lt__ for you
+
+
+
+
+
+performing arithmetic operations
+
+	so what about
+	using arithmetic will complex
+	objects?
+
+	point = Point(10, 20)
+	other = Point(1, 2)
+	print(point + other)
+
+	check out numeric magic methods
+	in search Python 3 built-in magic methods
+
+
+	class Point:
+		...
+
+		def __add__(self, other):
+			return Point(self.x + other.x, self.y + other.y)
+
+
+	combined = point + other
+	print(combined)
+
+
+
+making custom containers
+
+	there are times when the built in
+	data structures and containers
+	are not sufficient,
+
+	you can create your own custom
+	containers
+
+	internally you use the built
+	in data structures
+
+	# keep track of tags on a blog
+	class TagCloud:
+		def __init__(self):
+			self.tags = {}
+
+		def add(self, tag):
+			# so with dictionary,
+			# the .get() gets the
+			# value for the object
+			# if it exist,
+			# the second arg to .get
+			# is the default if
+			# arg1 is not found in
+			# the dict
+
+			self.tags[tag.lower()] = self.tags.get(tag.lower(), 0) + 1
+
+		# to make accessible through
+		# myobject[n]
+		def __getitem__(self, key):
+			return self.tags.get(tag.lower(), 0)
+
+		# to allow setting of values
+		# with syntax
+		# myobject[key] = newValue
+		def __setitem__(self, tag, count):
+			self.tags[tag.lower()] = count
+
+		# allow
+		# len(myobject)
+		def __len__(self):
+			return len(self.tags)
+
+		# to make it iterable,
+		# can use built in function, iter()
+
+		def __iter__(self):
+			return iter(self.tags)
+
+	cloud = TagCloud()
+	cloud.add("python")
+	cloud.add("javascript")
+	print(cloud.tags)
+
+	# must implement
+	# __get_item(self, key)
+	print(cloud["python"])
+
+	# must implement
+	# __len__(self)
+	print(len(cloud))
+
+	# must implement
+	# __set_item(self, key, value)
+	cloud["python"] = 10
+
+	# to make it iterable
+	# __iter__(self)
+	for tag in cloud:
+		print(tag)
+
+
+private members
+
+	cloud = TagCloud()
+	cloud.add('Python')
+
+	if access the dictionary,
+	the program will crash
+	such as
+
+	cloud.tags["PYTHON"]
+
+	it gives us access to the underlying
+	data structure
+
+	so we need to hide that attribute
+
+	need to prefix it with two underlines
+
+	// keyboard shortcut is f2
+	// within class implementation
+	self.__tags
+
+	so now
+
+	it'll throw an exception
+	if you try to access
+
+	this makes it harder to access them,
+
+	it's not security,
+	it's a warning/alert to the consumer
+	of the class
+
+	to still access it,
+
+	every object has the property
+
+	__dict__
+		// a dictionary that holds all the
+		// attributes of a class
+
+	so can access it with
+
+
+	print(cloud._TagCloud__tags)
+
+
+	so in Python, we don't have the
+	concept of Private members,
+	but using __ (double underscores)
+	is the convention
+
+properties
+
+	class Product:
+		def __init__(self, price):
+			self.price = price
+
+
+	product = Product(-50)
+	# this is not good,
+
+	we want to ensure that
+	we don't set illogical values
+	for our properties
+
+	to solve this,
+
+	we can make the field
+	private
+
+	and create getters and setters
+
+	class Product:
+		def __init__(self, price):
+			self.set_price(price)
+
+		def get_price(self):
+			return self.price
+
+		def set_price(self, value):
+			if value < 0:
+				raise ValueError("Price cannot be negative.")
+			else:
+				self.price = value
+
+
+	# 'Pythonic' is an expression to state
+	# that an implementation is not using
+	# the full Python features
+
+	there's a better way to implement this
+	using a
+	'property'
+
+	a property is an object that sits in
+	front of an attribute
+	and allows us to get/set the value
+	of that attribute
+
+	class Product:
+		def __init__(self, price):
+			self.set_price(price)
+
+		def get_price(self):
+			return self.price
+
+		def set_price(self, value):
+			if value < 0:
+				raise ValueError("Price cannot be negative.")
+			else:
+				self.price = value
+
+		# define a property after defining
+		# these two getter/setter methods
+		# property() takes 4 params,
+		# and these are all optional
+		# 1st param => getter func reference
+		# 2nd param => setter func reference
+		# 3rd param => function to deleting the attribute
+		# 4th param => for documentation
+		price = property(get_price, set_price)
+
+	# so we can access the price property
+	# like a regular field
+	product = Product(10)
+	print(product.price)
+
+	# if try to do,
+	# it'll throw an exception
+	product.price = -1
+
+
+	we want to make the getter and setter private
+
+	could do
+	__ in front of method names
+
+	but there's a cleaner way to achieve this,
+
+	use a decorator
+	for creating a property,
+
+	instead of explicitly
+	invoking property()
+
+	do @property
+	and change the method name to match
+	the instance variable field
+
+	class Product:
+		def __init__(self, price):
+			self.price = price
+
+		@property
+		def price(self):
+			return self.price
+
+		@price.setter
+		def price(self, value):
+			if value < 0:
+				raise ValueError("Price cannot be negative.")
+			else:
+				self.price = value
+
+
+	so we can use our property like a
+	regular attribute
+
+	you don't always need to have a
+	getter and setter
+
+	for example you can set a read-only value
+
+
+inheritance
+
+	classes often have features in common
+
+	ex:
+
+	class Animal:
+		def __init__(self):
+			self.age = 1
+
+		def eat(self):
+			print("eat")
+
+	# so Mammal inherits from Animal
+	class Mammal(Animal):
+		def walk(self):
+			print("walk")
+
+	inheritance or composition can be used
+
+	allows you inherit functionality
+	defined in other classes
+	that satisfy the 'is-a' relationship
+	it'll inherit all the
+	attributes and methods of its parent
+
+	m = Mammal()
+	m.eat()
+	m.walk()
+	print(m.age);
+
+the object class
+
+	some useful built in functions
+
+
+	isinstance(m, Mammal)
+	# this tells us if a given instance
+	# is of a given class
+	# it returns boolean
+
+
+	Animal class inherits from
+	object
+
+	class Animal(object):
+
+	so object is the base class
+	for all objects in Python
+	# directly or indirectly
+
+	# create an empty object,
+	# through member notation
+	# o.
+	# you can see all the built in
+	# magic functions with intellisence
+	o = object()
+
+	issubclass(Mammal, Animal)
+
+
+method overriding
+
+	class Mammal(Animal):
+		def __init__(self):
+			self.weight = 2
+
+		def walk(self):
+			print("walk")
+
+	the constructor of the parent object
+	must be invoked,
+
+	class Mammal(Animal):
+		def __init__(self):
+			super().__init__()
+			self.weight = 2
+
+		def walk(self):
+			print("walk")
+
+	to execute the constructor
+
+	you could also call the super().__init__()
+	after
+
+multi-level inheritance
+
+	the pass statement makes the
+	Python interpreter happy,
+	just an empty statement
+
+	inheritance abuse
+	is multi-level inheritance which
+	makes your software COMPLEX
+
+	just because something 'is-a'
+	doesn't mean you implement inheritance
+
+	limit inheritance to one or two levels
+
+multiple inheritance
+
+	in Python a class can have multiple
+	base classes
+
+
+	class Manager(Employee, Person):
+		pass
+
+	it's a source of issues if not
+	used properly
+
+	what if the base classes share a method,
+	and it's invoked,
+
+	the Python interpreter will
+	first look at the derived class (subclass)
+	then will look at its
+	first base class, ect.
+
+	if the order is changed,
+	the behavior would be changed
+
+	Why does Python support multiple inheritance?
+
+		if the classes are small and abstract
+		 and have
+		absolutely NOTHING in common,
+		then it's applicable
+
+		but it gets complicated when the base classes
+		have methods in common
+
+	class Flyer:
+		def fly(self):
+			pass
+
+	class Swimmer:
+		def swim(self):
+			pass
+
+	class FlyingFish(Flyer, Swimmer)
+		pass
+
+a good example of inheritance
+
+	modeling a stream of data
+
+	from file, network, or memory
+
+	how you read data depends on the
+	type of the stream
+
+	# create a custom exception,
+	# by convention, exceptions end with
+	# the prefix Error
+	class InvalidOperationError(Exception):
+		pass
+
+	class Stream:
+		def __init__(self):
+			self.opened = False
+
+		def open(self):
+			if self.opened:
+				# create a custom exception,
+				raise InvalidOperationError("Stream is already open.")
+			self.opened = True
+
+		def close(self):
+			if not self.opened:
+				# create a custom exception,
+				raise InvalidOperationError("Stream is already closed.")
+			self.opened = False
+
+	class FileStream(Stream):
+		def __init__(self):
+
+		def read(self):
+			print("Reading data from a file.")
+
+	class NetworkStream(Stream):
+		def __init__(self):
+
+		def read(self):
+			print("Reading data from a network.")
+
+	so this is a good example of inheritance
+	and the inheritance hierarchy is
+	at max two levels
+
+abstract base classes
+
+	some issues with the previous implementation
+
+	stream = Stream()
+	stream.open()
+
+	the Stream class is an abstract concept,
+	shouldn't be able to directly
+	create an instance of this class
+
+	the Stream class is a base class
+	for the purpose of resuse
+
+
+	currently there's no way to enforce
+	a common interface accross the
+	different types of strings
+
+	=> use an abstract base class
+
+	// like a half based cookie
+
+	it's purpose is to provide
+	some common code
+
+
+	ex:
+
+	# abc stands from abstract base class
+	from abc import ABC, abstractmethod
+
+	# so the module is all lowercase,
+	# name of the class is all uppercase,
+
+
+
+	class Stream(ABC)
+		....
+
+		@abstractmethod
+		def read(self):
+			pass
+
+	basically once a class has a method
+	with the abstractmethod decoratator
+	it's considered an abstract class
+
+	and cannot instantiate them
+
+
+	class MemoryStream(Stream):
+		def read(self):
+			print("Reading data from a memory stream.")
+
+	stream = MemoryStream()
+	stream.open()
+
+
+polymorphism
+
+	from abc import ABC, abstractmethod
+
+	class UIControl(ABC):
+		@abstractmethod
+		def draw(self):
+			pass
+
+	class TextBox(UIControl):
+		def draw(self):
+			print("TextBox")
+
+	class DropDownList(UIControl):
+		def draw(self):
+			print("DropDownList")
+
+
+	def draw(control):
+		control.draw()
+
+	ddl = DropDownList()
+	draw(ddl)
+
+	textbox = TextBox()
+	draw(textbox)
+
+
+	def draw(control):
+		for control in controls:
+			control.draw()
+
+	draw([ddl, textbox])
+
+
+	so it enables us to render it
+
+	efficiently due to their common interface,
+
+	this allows us function
+	to determine
+	at runtime which instance it is
+
+	polymorphism
+		=> many forms
+
+		allows flexible code
+
+duck typing
+
+	to achieve polymorphism,
+	define a base class
+	with common functions/behavior
+	needed in derived classes
+
+	such that those methods
+	take on 'different forms'
+	or different implementations
+
+	Python is a dynamically typed language
+
+	so if you were to delete the
+	base class,
+	and not inherit
+
+	we can still achieve polymorphic
+	behavior
+
+	any object as long as it is iterable
+	and has the .draw() method defined
+
+	def draw(control):
+		for control in controls:
+			control.draw()
+
+	=> Duck Typing
+		// if it walks like a duck and
+		// quacks like a duck,
+		// it is a duck
+
+
+	however the abstract base class is
+	a good practice
+
+extending built-in types
+
+	so the text class will inherit
+	all the functionality of Python strings
+	where we can
+	add additional features
+
+	class Text(str):
+
+		def duplicate(self):
+			return self + self
+
+	text = Text("Python")
+
+	# our object will have all the methods
+	# of Python strings
+
+	print(text.duplicate())
+
+
+	class TrackableList(list):
+		def append(self, object):
+			print("Append called")
+			super().append(object)
+
+	list = TrackableList()
+	list.append("1")
+
+
+data classes
+
+	so we use classes to bundle data
+	and functionality into one unit
+
+	class Point:
+		def __init__(self, x, y):
+			self.x = x
+			self.y = y
+
+
+	some classes don't have any behavior,
+	(no methods)
+	they only have data
+
+	p1 = Point(1, 2)
+	p2 = Point(1, 2)
+	print(p1 == p2)
+	# this will produce False,
+	# since it compares the two objects
+	# based on where they are in memory
+	# (their memory addresses)
+
+	# can use the build in id()
+	# to return the memory address
+	print(id(p1))
+
+	must implement a magic method
+	__eq__()
+	this enables you to perform
+	comparisons with your custom objects
+	==
+
+	class Point:
+		def __init__(self, x, y):
+			self.x = x
+			self.y = y
+
+		def __eq__(self, other):
+			return self.x == other.x and self.y == other.y
+
+	print(p1 == p2)
+	# True
+
+
+	if dealing with classes that have
+	no behavior methods,
+	can use a named tuple instead
+
+
+
+	from collections import namedtuple
+
+	# specify
+	# 1st arg => name
+	# 2nd arg => array of attribute names
+	Point = namedtuple("Point", ["x", "y"])
+
+	# instead of passing arbitrary arg,
+	# pass keyword values,
+	# leads to more clear code
+
+	# pass key, value pairs as the args
+	p1 = Point(x=1, y=2)
+
+	# 2nd benefit is that don't need
+	# to use a magic method to compare
+	# two arguments
+
+	p2 = Point(x=1, y=2)
+
+	# so we can easily compare them
+	print(p1 == p2)
+
+	they are immutable,
+	can't reassign their key values
+
+	if you really need to modify,
+	create a new Point object

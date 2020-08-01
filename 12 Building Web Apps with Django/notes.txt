@@ -1,0 +1,1599 @@
+introduction
+
+Your First Django Project
+
+Your first app
+
+views
+
+models
+
+migrations
+
+changing the models
+
+Admin
+
+Customizing the Admin
+
+Database abstraction API
+
+Templates
+
+Adding Bootstrap
+
+Customizing the Layout
+
+Sharing a Template Across Multiple Apps
+
+Url Parameters
+
+Getting a Single Object
+
+Referencing Urls
+
+Creating APIs
+
+Adding the Homepage
+
+Getting Ready to Deploy
+
+Deployment
+
+/* -------------------
+
+introduction
+
+	Django is a framework
+	for web interfaces
+
+	Big companies that are
+	built in Django are
+
+	- Instagram
+	- Spotify
+	- YouTube
+	- Dropbox
+	- BitBucket
+	- The Washington Post
+	- Eventbrite
+	ect
+
+Your First Django Project
+
+	first install django
+	and create the project
+
+	$ mkdir vidly
+
+	$ cd vidly
+
+	# install Django
+	# using pipenv
+
+	$ pipenv install django==2.1
+
+	// specifying the version
+	// is just to make it
+	// the same as
+
+	# need to activate
+	# your virtualenv
+
+	$ pipenv shell
+
+	# use tool,
+	# django-admin to create
+	# a new project
+
+	$ django-admin startproject vidly .
+
+	// the period at the end
+	// specifies the current
+	// directory
+
+
+	this installs boiler plate code
+
+	-
+
+	$ subl .
+
+
+	so it creates
+	a new directory with the
+	given project name
+	and a manage.py file
+
+	the manage.py file helps perform
+	administrative task
+	such as starting the web server,
+	migrating database, populating db,
+	ect.
+
+	the inner project directory
+	is simply a package
+
+	// it's the core of the application
+
+	__init__.py // treat directory as a package
+
+	it has settings.py
+	// various configs for project
+
+	urls.py
+	// define url endpoints
+
+	wsgi.py
+	// stands for
+	// webserver gateway interface
+
+
+	that file represents a standard
+	interface between
+	apps written in python
+	and web servers
+	// beyond the scope of this project
+
+	(vidly) $ python3 manage.py runserver
+
+	// sets up dev server
+	// on port 8000
+
+	// you can specify another port
+
+
+	(vidly) $ python3 manage.py runserver 8080
+
+	# if unapplied migrations,
+	# deal with that later
+
+	localhost:8000
+
+
+Your first app
+
+	in Django, a project can contain
+	multiple apps
+
+	they represent a small part
+	of the app
+
+	// kind of like microservices
+
+	so can break up a complex
+	project into smaller, reusable
+	apps
+
+	movies app,
+
+	(vidly) $ python3 manage.py startapp movies
+
+	// this creates a new directory
+
+	so this project directory will have
+
+		__init__.py
+			// makes it a package,
+			// means that we could
+			// upload it to Pypi.com
+
+		migrations
+
+		admin.py
+			// define how the area
+			// should look ilke
+
+		apps.py
+			// use this to store
+			// config settings
+			// think of it like config.py
+
+		models.py
+			// here you
+			// define classes
+
+		tests.py
+			// add automated test
+
+		views.py
+			// here define view functions,
+			// which are
+			//
+
+		Django takes request,
+		then passes it to a view
+		function,
+		that function takes the
+		request and
+		returns a response
+
+		the response contains
+		html, json, image, ect
+
+	view functions
+		// it's a function
+		// that takes a request
+		// and returns a response
+
+	DJANGO
+
+	model, template, view
+	(model), (view), (controller)
+
+	MVT,
+
+
+
+views
+
+	in movies/
+		views.py
+
+	from django.shortcuts import render
+	from django.http import HttpResponse
+
+	# create views here
+	# the names are arbitrary,
+	# convention is to use index
+	# for main endpoint
+
+	# an http request object is passed
+	# django takes care of this
+	# based on config,
+	# it'll figure out which
+	# view function should be called
+
+	# every view function should return
+	# an http response
+
+	def index(request):
+		return HttpResponse("Hello World")
+
+
+	you now need to map
+	this to a URL
+
+	movies/
+
+		$ touch urls.py
+
+		in urls.py
+
+	# in this list, you map
+	# objects to URL endpoints
+	# utilizing the path function
+	# in Django
+
+	# use relative URLs
+
+	# you can't straight up
+	# import view
+	# as django loads its modules
+	# differently than pure Python
+	# due to prevention of naming conflicts
+	# must use a relative path
+
+	from django.urls import path
+	from . import views
+
+
+	# so in path()
+	# 1st arg => endpoint
+	# 2nd arg => reference to a view
+	# 	function, note that
+	# 	not invoking it
+	# 3rd arg => name the route
+
+	urlpatterns = [
+		path('', views.index, name='index')
+	]
+
+
+	django will take care of
+	calling the view function
+	and passing in the
+	http request object
+
+	so refer to this file and
+	the urlpatterns list object
+	as a
+	url configuration
+
+	// every app should have
+	// a url configuration
+
+	but the main app,
+	the outermost,
+	has no knowledge
+	of the inner app's url.py config
+
+
+	so in the main, outermost, app
+
+	in it's urls.py
+
+
+		so by convention,
+		django looks for the object
+		urlpatterns,
+
+		// spell it out exact
+
+		so the first arg in path()
+		here states,
+		anything starting with
+
+		movies/
+		maps to the specified
+		urls config
+
+		the arg to pass into include()
+		is
+		appName.urls
+		to reference the urls.py file
+
+		# django appends the .py
+		# extension
+
+		so in movies/
+		django drops off the movies/
+		part and passes off the
+		remaining urls to the
+		included app's urls config
+
+
+	from django.contrib import admin
+	from django.urls import path, include
+
+
+	urlpatterns = [
+		path('admin/', admin.site.urls),
+		path('movies/', include('movies.urls'))
+	]
+
+
+	(vidly) $ python3 manage.py runserver
+
+
+models
+
+	in the inner's app models.py
+
+	from django.db import models
+
+	# so it inherits from
+	# it has built in
+	# functionality for working
+	# with databases
+
+	class Genre(models.Model):
+		# now consider the
+		# attributes
+
+		# you set it to an instance
+		# of a field class in django
+
+		# so in the models module,
+		# it has a bunch of field types
+
+		# enforcing a limit is also
+		# good for security
+		name = models.CharField(max_length=255)
+
+
+
+
+	class Movie(models.Model):
+		title = models.CharField(max_length=255)
+		release_year = models.IntegerField()
+		number_in_stock = models.IntegerField()
+		daily_rate = models.FloatField()
+
+		# each movie,
+		# needs to be associated
+		# with a genre
+
+		# the 2nd arg specifies
+		# what should happen
+		# when primary key is deleted
+		genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+
+
+	next need to tell django to
+	synchronize the database
+	with the models in the
+	movies/ app
+
+
+
+
+migrations
+
+	now store model objects
+	in a db
+
+	in your project files,
+	you have a
+	db.sqlite3
+
+	that django admin creates
+	for you
+
+	# it's lightweight for
+	# small applications,
+	# like mobile for example
+
+	but not suitable for
+	web applications
+	which serves thousands of users
+
+	it doesn't have the benefits
+	of security or concurrency
+
+	in those case use
+	SQL based or Postress
+	ect.
+
+
+	Django supports all those engines
+
+
+	search
+
+		'db browser for sqlite'
+
+		# use this application
+		# to open a
+		# sqlite db
+
+
+	have to create tables
+	to store,
+
+	don't have to manually
+	design these tables,
+	we can have
+	Django create those
+	tables for us
+	based on models
+
+
+	so whenever alter our models,
+	we tell Django to compare
+	our models with our db
+
+	Django will calculate difference
+	and create a migration
+
+	a migration is essentially
+	a python file
+	that synchronize our db
+	with our model classes
+
+
+	(vidly) $ python3 manage.py makemigrations
+
+	No changes detected
+
+
+
+	# so by default,
+	django is not aware
+	of your model classes
+
+	so must register your app with django
+
+	so in your inner app
+
+	vidly/
+		settings.py
+
+		it contains config,
+		so go to
+
+		INSTALLED_APPS list
+
+		add a new element,
+
+	INSTALLED_APPS = [
+		'django.contrib.admin',
+		'django.contrib.auth',
+		'django.contrib.contenttypes',
+		'django.contrib.sessions',
+		'django.contrib.messages',
+		'django.contrib.staticfiles',
+	]
+
+
+	django.contrib.admin
+		=>
+			creates an admin panel
+
+	'django.contrib.auth',
+		=>
+			an authentication
+			framework,
+
+			this enables us to
+			authenticate users
+			and see if they have
+			permission
+			to perform various tasks
+
+	'django.contrib.contenttypes',
+		=>
+			framework for creating
+			generic relationships
+			between model classes
+
+
+	'django.contrib.sessions',
+		=>
+			a framework
+			to temporarily store
+			data about the current user
+
+	'django.contrib.messages',
+		=>
+			a messaging framework,
+			use this to display
+			a message
+
+			// such as for redirecting
+
+	'django.contrib.staticfiles',
+		=>
+			used for managing
+			staticfiles like
+			css, images, ect
+
+	in most apps,
+	pretty much use all these default
+	installed apps,
+
+	but you can remove them
+	if unneeded for your app
+
+
+	so you must add the name of
+	your app to the list
+
+	so go to
+
+	apps.py
+
+		here can have various config
+		settings for the app
+
+
+		from django.apps import AppConfig
+
+		class MoviesConfig(AppConfig):
+			name = 'movies'
+
+
+	so to register,
+	must provide the complete
+	path to this class
+
+
+
+
+	INSTALLED_APPS = [
+		'django.contrib.admin',
+		'django.contrib.auth',
+		'django.contrib.contenttypes',
+		'django.contrib.sessions',
+		'django.contrib.messages',
+		'django.contrib.staticfiles',
+		'movies.apps.MoviesConfig'
+	]
+
+
+	(vidly) $ python3 manage.py makemigrations
+
+		- Create model Genre
+		- Create model Movie
+
+
+	in the migration file,
+	django takes care of this,
+
+	django adds in a unique id
+	object automatically for you,
+	as to uniquely identify the
+	object/record
+
+
+	so the migration is not
+	executed yet,
+
+	it's simply describes
+	the operations that need to
+	be performed on the db
+	to bring it up to date
+	to the model classes
+
+
+	# next run the migration
+
+	(vidly) $ python3 manage.py runserver
+
+
+	(vidly) $ python3 manage.py migrate
+
+	# this will run all the
+	# pending migrations on our db
+
+
+	so the name of the migrations
+	are prefixed with the name
+	of the app that contains it
+
+	each migration is prefixed
+	with the name of the app that
+	contains it
+
+	so each app can have their
+	own models and migrations
+
+
+	also have django_migrations,
+
+	Django uses this table to keep
+	track of the migrations
+	that are currently applied on the database.
+
+
+changing the models
+
+	so add a new attribute, date created
+
+	class Movie(models.Model):
+		title = models.CharField(max_length=255)
+		release_year = models.IntegerField()
+		number_in_stock = models.IntegerField()
+		daily_rate = models.FloatField()
+		genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+		date_created = models.DateTimeField(default=datetime.now)
+
+	# one problem is that the datetime object is
+	# not aware of time zones,
+
+	so better approach would be to
+	use the time zone object in django
+
+	// the object will automatically
+	// translate that date time to the user's
+	// time zone
+
+	so
+
+	from django.utils import timezone
+
+
+	then modify
+	date_created = models.DateTimeField(default=timezone.now)
+
+	so not calling the timezone.now() method,
+	rather passing a reference
+
+	if call the method,
+	then when create the migration then the
+	current time will be hardcoded
+	// it'll be a fixed date
+
+	we want the value calculated at runtime
+
+	-
+	so now create a new migration
+
+	(vidly) $ python3 manage.py makemigrations
+
+
+	never delete any migrations,
+	the purpose is to take the
+	database one step forward,
+
+	// otherwise there would be a missing step
+	NEVER delete a migration
+
+	(vidly) $ python3 manage.py migrate
+
+
+	Django looks at the unapplied migrations
+	and will generate some SQL statements
+	to send to the db,
+
+	use the sql migrate command
+	to view which sql statements are
+	generated when applying the migration
+
+	// specify the app and a specific migration prefix
+	(vidly) $ python3 manage.py sqlmigrate movies 001
+
+
+Admin
+
+	so our database is 'setup'
+
+	now allow staff to populate the data
+
+	don't want to do this manually
+
+	need an admin panel,
+
+	all Django applications come with a powerful
+	admin interface
+
+	(vidly) $ python3 manage.py runserver
+
+	go to the local server and
+		append to the url
+		/admin
+
+	the auth app,
+	a small reusable package
+
+	that's the benefit of
+	INSTALLED_APPS
+
+	-
+	so create a super user
+
+	(vidly) $ python3 manage.py createsuperuser
+
+		enter a username, email, and password
+		when prompted
+
+	can put users into different groups
+
+	as see
+		Groups
+		Users
+
+	Groups can be admin, moderators, guest, ect.
+
+
+	go into Users
+	and there are many filters available
+
+
+	in project files
+	in movies/
+	see admin.py
+	this is the file to register the models
+	that you want to manage using
+	the administrative interface
+
+	in admin.py
+
+		from django.contrib import admin
+		from .models import Genre, Movie
+
+		admin.site.register(Genre)
+		admin.site.register(Movie)
+
+
+	so now back in localhost admin page,
+	refresh
+
+Customizing the Admin
+
+	the default representation of an object
+	in the admin interface is
+
+	ex:
+
+		Genre object (1)
+
+	one way
+	to fix this problem
+	is to override
+	in the Genre class
+
+	in the models,
+	override the string magic method
+	to represent the string representation
+
+	class Genre(models.Model):
+		name = models.CharField(max_length=255)
+
+		def __str__(self):
+			return self.name
+
+
+	so when refresh the page,
+	it'll show the name of the genre
+	in the Admin page
+
+	then in the admin.py
+
+	to customize how we were with Genre
+	in the admin panel
+
+	create a new class GenreAdmin
+
+
+		from django.contrib import admin
+		from .models import Genre, Movie
+
+		# convention is to append Admin suffix
+		class GenreAdmin(admin.ModelAdmin):
+			list_display = ('id', 'name')
+
+		admin.site.register(Genre, GenreAdmin)
+		admin.site.register(Movie)
+
+
+	now for the admin page,
+	it'll show two columns
+	id and name
+
+
+	back to the admin.y file,
+	add
+
+		class MovieAdmin(admin.ModelAdmin):
+			# specify fields to show in form
+			#fields = ('title', 'genre')
+
+			# or use exclude()
+			# to specify the fields to exclude
+			# Note: a tuple with one value needs
+			# a comma for Python to differentiate
+			# it from a string
+			exclude = ('date_created', )
+
+			list_display = ('title', 'number_in_stock', 'daily_rate')
+
+
+Database abstraction API
+
+	so refer to the movie class
+	which inherits from models.Model
+
+	this provides us the functionality
+	to perform CRUD operations
+	on a database
+
+	# SELECT * FROM movies_movie;
+	Movie.objects.all()
+
+	# SELECT * FROM movies_movie WHERE release_year = 1984;
+	Movie.objects.filter(release_year=1984)
+
+	# for getting a single object
+	Movie.objects.get(id=1)
+
+	# we can always send raw SQL statements
+	# to our database
+	# if this doesn't give us what we need
+
+	/------------
+
+	class Movie(models.Model):
+		title = models.CharField(max_length=255)
+		release_year = models.IntegerField()
+		number_in_stock = models.IntegerField()
+		daily_rate = models.FloatField()
+		genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+		date_created = models.DateTimeField(default=datetime.now)
+
+
+	so in movie/views.py
+
+	# use the model API to get all
+	# the data objects from our database
+
+	....
+	from .models import Movie
+
+	def index(request):
+		movies = Movie.objects.all()
+		# use list comprehension to get the titles
+		output = ', '.join([m.title for m in movies])
+		return HttpResponse(output)
+
+Templates
+
+	return HTML content from view functions
+
+	note the
+
+	from django.shortcuts import render
+
+		so the render is used to render a template
+
+	so for render()
+	# 1st arg => request
+	# 2nd arg => name of our template
+	# 3rd arg => (optional)
+		# context object (a dictionary)
+		# to pass data to our template
+
+	def index(request):
+		movies = Movie.objects.all()
+		return render(request, 'index.html', { 'movies': movies })
+
+	-
+
+	now create the template
+
+	in our movies app
+	movies/
+
+	by convention
+
+	$ mkdir templates
+
+	within that
+
+	$ touch index.html
+
+	<h1>Testing</h1>
+	# language is Django html
+	# so we have snippets to generate
+	# Django code
+
+	---
+
+	a powerful feature that's available
+	when not using
+	Django html as the editor language
+
+	that's zen coding
+	to quickly generate some HTML markup
+
+	// consider a table with a class table
+
+	use Django template syntax
+	{% %}
+	to execute some logic
+	like an if statement or a loop
+
+	using template tags for logic, {% %}
+	and to actually render the value of a variable
+	use {{ }}
+
+
+	<table>
+		<thead>
+			<tr></tr>
+		</thead>
+		<tbody>
+			{% for movie in movies %}
+				<tr>
+					<td>{{ movie.title }}</td>
+					<td>{{ movie.genre }}</td>
+					<td>{{ movie.number_in_stock }}</td>
+					<td>{{ movie.daily_rate }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+
+	---
+	install pylint django
+
+	(vidly) $ pipenv install pylint-django
+
+
+	then in root of project
+
+	$ touch .pylintrc
+
+	that's the config for pylint
+	tell it to load the plugin
+
+	so enter into the file
+
+		load-plugins=pylint-django
+
+	--
+
+	so there's currently a problem
+	with
+
+	def index(request):
+		movies = Movie.objects.all()
+		return render(request, 'index.html', { 'movies': movies })
+
+	with the 'index.html' being passed as
+	the second arg
+
+	you'll get an error if that
+	arg is ever passed,
+
+	note that path that Django searches for
+	to find that template file
+
+
+	the path matters because
+	in a real project you'll have multiple apps
+
+	so it'll look for that file based
+	on the
+
+	settings.py file
+	INSTALLED_APPS list
+
+	Django starts from the top,
+	if that app has a template folder
+	it'll search for a matching name
+
+	so note:
+		if you use a generate name for
+		the render()
+		Django may load that template from
+		another app first
+
+	so for best practice
+	provide a namespace
+
+	in templates/
+		$ mkdir movies
+			// that's our namespace
+			then move
+
+			index.html
+			# in that
+
+
+	# now be sure to prefix based
+	# on that namespace
+
+	... (back in views.py file)
+
+		def index(request):
+			movies = Movie.objects.all()
+			return render(request, 'movies/index.html', { 'movies': movies })
+
+Adding Bootstrap
+
+	Bootstrap is a CSS framework to
+	provide a responsive and modern 'feel'
+	to our apps
+
+	copy a CSS file,
+	to the CDN
+	// or can do a static file
+	as well as a JS
+
+	copy the starter template
+	from bootstrap website
+
+
+	then in templates/
+		in
+		movies/
+
+		$ touch base.html
+
+		that's the base template
+		for our movies
+
+		paste the starter markup
+
+		and define a placeholder
+		within
+
+		<body> </body>
+
+		<!--
+		so create a block
+		and give it a name , 'content'
+
+		-->
+		{% block content %}
+		{% endblock %}
+
+	so now back in index.html template
+
+
+	and in that file on the top
+
+	use extends,
+
+	# specify the template file that
+	# you are extending
+	{% extends 'base.html' %}
+
+	# use the same name for the block
+	{% block content %}
+		<table class="table">
+			.....
+			....
+		</table>
+	{% endblock %}
+
+
+Customizing the Layout
+
+	bootstrap,
+
+	in documentation,
+
+	so must have a link to the CDN
+
+	so copy the starter template
+
+	in templates/
+		movies/
+
+	$ touch base.html
+
+	paste the starter files
+
+
+	in the body,
+	we want to define a placeholder
+
+	# so in base.html,
+	# define a block and give
+	# it the name of 'content'
+
+	<body>
+
+		{% block content %}
+		{% endblock %}
+
+	</body>
+
+	---
+
+	then in
+
+	index.html
+
+	command + p
+	to search for a file in editor
+
+
+	then in index.html
+	for the movies/
+
+	Django needs to be able to find
+	base.html template
+
+	should namespace our templates
+
+
+		{% extends 'movies/base.html' %}
+
+		{% block content %}
+			<table class="table">
+				...
+			</table>
+		{% endblock %}
+
+
+	---
+
+	in bootstrap documentation,
+	refer to components in the side bar
+
+	in navbar
+
+	go to simple navbar, brand
+
+	after <body>
+
+		paste the navbar
+		from the docs
+
+
+		<main class="container">
+			{% block content %}
+			{% endblock %}
+		</main>
+
+
+	so back in index.html
+
+	<table class="table table-bordered table-hover">
+		<thead>
+
+		</thead>
+		<tbody>
+			....
+		</tbody>
+	</table>
+
+
+Sharing a Template Across Multiple Apps
+
+	in movies/
+
+	we want to extract base.html
+	and put it someplace central
+
+	in root
+
+	$ mkdir templates/
+
+	move base.html to templates/
+
+
+	so in index.html
+	of the movies/ app
+
+	so Django will look in the
+	INSTALLED_APPS templates
+
+	in settings.py
+
+	search for TEMPLATES list
+
+
+	'DIRS': [os.path.join(BASE_DIR, 'templates')],
+
+
+	--
+
+
+	{% extends 'base.html' %}
+
+Url Parameters
+
+	ex:
+
+	movies/1
+
+	in urls.py
+
+	NOTE: we use <> to denotate a
+		parameter,
+
+		in vidly/
+		urls.py
+
+		note:
+
+			path('movies/', include('movies.url'))
+
+			also the
+			name parameter is useful
+
+			as we only need to update the
+			url once if we decide to change it
+			rather than
+			hardcoding the url in multiple places
+
+
+
+		from django.urls import path
+		from . import views
+
+		urlpatterns = [
+			path('', views.index, name='movies_index'),
+			path('<int:movie_id>', views.detail, name='movies_detail')
+		]
+
+	-
+
+	so command + p
+
+	search for views.py in movies/
+
+
+		def detail(request, movie_id):
+			return HttpResponse(movie_id)
+
+	--
+
+		def detail(request, movie_id):
+			return HttpResponse(movie_id)
+
+
+
+Getting a Single Object
+
+	def detail(request, movie_id):
+		movie = Movie.objects.get(id=movie_id)
+		# also have pk for primary key
+
+		return render(request, 'movies/detail.html, { 'movie': movie});
+
+	then in templates/movies/
+
+	$ touch detail.html
+
+
+	{% extends 'base.html' %}
+
+	{% block content %}
+		<dl>
+			<dt>Title</dt>
+			<dd>{{ movie.title }}</dd>
+			....
+		</dl>
+	{% endblock %}
+
+raising 404 errors
+
+	what is pass an invalid movie id?
+
+	-> get exception
+		does not exist
+
+	so in this case, you return 4040 error
+
+	to fix this,
+
+		from django.http import HttpResponse, Http404
+
+		def detail(request, movie_id):
+			try:
+				movie = Movie.objects.get(id=movie_id)
+				return render(request, 'movies/detail.html, { 'movie': movie});
+			except Movie.DoesNotExist:
+				raise Http404('')
+
+	Django is focused on productivity
+	so you can build faster
+	with less code
+
+	on top of views.py
+
+
+	from django.shortcuts import render, get_object_or_404
+
+
+	# so now simplify the view function
+
+	def detail(request, movie_id):
+		movie = get_object_or_404(Movie, pk=movie_id)
+		return render(request, 'movies/detail.html, { 'movie': movie}
+
+
+Referencing Urls
+
+
+			{% for movie in movies %}
+				<tr>
+					<td>
+						<a href="/movies/{{ movie.id }}"
+							{{ movie.title }}
+						</a>
+					</td>
+					<td>{{ movie.genre }}</td>
+					<td>{{ movie.number_in_stock }}</td>
+					<td>{{ movie.daily_rate }}</td>
+				</tr>
+
+
+		but that's not the best
+		way to link
+
+		so here's a better way
+
+		remember the name attribute in urls.py
+
+
+		{% for movie in movies %}
+			<tr>
+				<td>
+					<a href="{% url 'movies_detail' movie.id %}"
+						{{ movie.title }}
+					</a>
+				</td>
+				<td>{{ movie.genre }}</td>
+				<td>{{ movie.number_in_stock }}</td>
+				<td>{{ movie.daily_rate }}</td>
+			</tr>
+
+		-
+
+		then back in urls.py
+
+		# Django is aware of this variable name
+		app_name = 'movies'
+
+		urlpatterns = [
+			path('', views.index, name='index'),
+			path('<int:movie_id>', views.detail, name='detail')
+		]
+
+		-
+		so now can modify in
+
+		index.html
+
+		# Django will know
+		# that app_name has been set to 'movies'
+
+		{% for movie in movies %}
+			<tr>
+				<td>
+					<a href="{% url 'movies:detail' movie.id %}"
+						{{ movie.title }}
+					</a>
+				</td>
+				<td>{{ movie.genre }}</td>
+				<td>{{ movie.number_in_stock }}</td>
+				<td>{{ movie.daily_rate }}</td>
+			</tr>
+
+		lots of conventions in Django,
+
+		once learn can deliver a lot
+		in less time
+
+
+Creating APIs
+
+
+	this enables other websites or
+	apps to access our data
+
+	api/movies
+
+	HTTP request to that endpoint
+	will get JSON format
+	// pure data
+
+	most popular websites
+	have APIs,
+	so you can work with their data
+	in your apps
+
+	when building APIs in Django
+
+	there are two popular frameworks
+
+	django-tastypie 0.14.2
+
+		$ pip install django-tastypie
+
+	another one is
+	djangorestframework 3.9.0
+
+		$ pip install djangorestframework
+
+		# more feature rich
+		# to be used in a large enterprise app
+
+		# complex
+
+	-
+
+	(vidly) $ pipenv install django-tastypie
+
+	(vidly) $ python manage.py startapp api
+
+
+	now register in INSTALLED_APPS
+
+	settings.py
+
+	'api.apps.ApiConfig'
+
+	# reference the config file
+	# in that list
+
+
+	in models.py
+
+	# refer to models as resources
+
+	# REST
+	# convention for how applications
+	# should talk to each other over
+	# HTTP protocol
+
+
+		from django.db import models
+
+		from tastypie.resources import ModelResource
+		# it looks for an inner class named Meta
+
+		from movies.models import Movie
+
+		# create a movies resource
+		class MovieResource(ModelResource):
+
+				class Meta:
+						# this will return the query,
+						# it won't go to the db
+						# and return a list of all the movies
+						# it'll be executed at some time
+						# in the future
+						# (known as lazy loading)
+						queryset = Movie.objects.all()
+
+						# this determines what our
+						# API will look like
+
+						resource_name = 'movies'
+
+
+		in main vidly/ app
+
+			from api.models import MovieResource
+
+			# need to create an instance
+			movie_resource = MovieResource()
+
+			# this determines the urls based
+			# on the resource name
+
+
+			urlpatterns = [
+				path('admin/', admin.site.urls),
+				path('movies/', include('movies.urls'))
+				path('api/', include(movie_resource.urls))
+			]
+
+
+		the movie objects will be
+		serialized as JSON
+
+
+	back in API
+
+	you can exclude data that you
+	don't want returned
+	from API call
+
+
+	class MovieResource(ModelResource):
+
+			class Meta:
+					queryset = Movie.objects.all()
+					resource_name = 'movies'
+					excludes = ['date_created']
+
+
+
+Adding the Homepage
+
+	Django will display the default
+	homepage until you register
+	a new urlpattern
+
+
+	initially we only had 'admin/'
+
+	in vidly/ urls.py
+
+
+	so now we need to manually
+	set the homepage
+
+	in vidly/
+
+	views.py
+
+		from django.shortcuts import render
+
+		def home(request):
+			return render(request, 'home.html')
+
+
+	back in vidly/urls.py
+
+		from . import views
+
+		urlpatterns = [
+			path('', views.home),
+			path('admin/', admin.site.urls),
+			path('movies/', include('movies.urls'))
+			path('api/', include(movie_resource.urls))
+		]
+
+	now we need to create the
+	template, here we have two options,
+
+	one option
+	is to add the templates/
+	in vidly/
+
+
+
+
+Getting Ready to Deploy
+
+Deployment

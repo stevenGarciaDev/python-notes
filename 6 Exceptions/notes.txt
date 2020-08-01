@@ -1,0 +1,363 @@
+exceptions
+
+handling exceptions
+
+handling different exceptions
+
+cleaning up
+
+the With statement
+
+raising exceptions
+
+cost of raising exceptions
+
+/* --------
+
+exceptions
+
+	when writing programs,
+	many things can go wrong,
+
+	we don't want our app to 
+	terminate though
+	when these eventual errors occur 
+
+	Your job is to prevent
+	your app from crashing,
+	and instead display the 
+	appropriate error message 
+
+	numbers = [1, 2]
+	print(numbers[3])
+
+	# causes an exception 
+
+
+	# it's an error that terminates
+	# the execution of a program 
+	# it (throws) an exception
+
+
+	another example 
+
+	age = int(input("Age: "))
+
+	$ python3 app.py
+	> Twelve
+
+	# causes an exception
+
+
+
+
+
+
+handling exceptions
+
+	try:
+		age = int(input("Age: "))
+	except ValueError:
+		print("You didn't enter a valid age.")
+
+	if you don't handle exceptions
+	properly
+	then your program will crash 
+
+	remember things always 
+	go wrong in the real world
+	and in production 
+
+	try:
+		age = int(input("Age: "))
+	except ValueError:
+		print("You didn't enter a valid age.")
+	else:
+		print("No exceptions were thrown.")
+
+
+	so that's the basic structure 
+	for exceptions
+
+	you can optionally define a 
+	variable that will include
+	the details about it 
+
+	# for demo purposes
+
+	try:
+		age = int(input("Age: "))
+	except ValueError as error:
+		print("You didn't enter a valid age.")
+		print(ex)
+		print(type(ex))
+	else:
+		print("No exceptions were thrown.")
+
+
+
+handling different exceptions
+
+	try:
+		age = int(input("Age: "))
+		xfactor = 10 / age
+	except ValueError as error:
+		print("You didn't enter a valid age.")
+	except ZeroDivisionError:
+		print("Age cannot be zero.")
+	else:
+		print("No exceptions were thrown.")
+
+	if going to repeat
+	the print statement 
+	or the code block 
+	for different types of 
+	exceptions
+
+	you can clean it up 
+
+	try:
+		age = int(input("Age: "))
+		xfactor = 10 / age
+	except (ValueError, ZeroDivisionError):
+		print("You didn't enter a valid age.")
+	else:
+		print("No exceptions were thrown.")
+
+	when Python executes
+	the code in try block,
+
+	if any matches one of the except
+	clauses,
+	that'll be caught and 
+	the others ignored 
+
+cleaning up
+
+	try:
+		open("app.py")
+		age = int(input("Age: "))
+		xfactor = 10 / age
+
+		# the below statement may never 
+		# be executed if an exception 
+		# if thrown before 
+		file.close() 
+	except (ValueError, ZeroDivisionError):
+		print("You didn't enter a valid age.")
+	else:
+		print("No exceptions were thrown.")
+
+	duplication is a bad practice,
+	don't repeat yourself
+
+	the solution is to use the 
+	finally clause 
+
+	so the finally clause 
+	will be executed no matter 
+	what 
+	and it's used to release external
+	resources 
+
+	# perfect place to close 
+	# database connections, network 
+	# connections, file connections
+
+	try:
+		open("app.py")
+		age = int(input("Age: "))
+		xfactor = 10 / age
+	except (ValueError, ZeroDivisionError):
+		print("You didn't enter a valid age.")
+	else:
+		print("No exceptions were thrown.")
+	finally:
+		file.close()
+
+the With statement
+
+	shorter and cleaner way 
+	without the finally clause 
+
+	this only works with certain 
+	kinds of objects 
+
+	prefix with the 'with' statement
+
+	Python will automatically call 
+	file.close()
+
+	the 'with' statement 
+	is used to automatically release
+	external resources
+
+	also note that methods 
+	that begin with two underlines
+
+	.__
+	are referred to as magic methods
+
+	note
+		.__enter
+		.__exit
+
+		when a method has these
+		methods 
+
+		we say that,
+		the object supports
+		context management protocol
+
+		in other words,
+		if it has those methods,
+		then we can use it 
+		with the 'with' statement
+
+
+	try:
+		with open("app.py") as file:
+			# work with this file object
+			print("File opened")
+			file.__enter
+
+		age = int(input("Age: "))
+		xfactor = 10 / age
+	except (ValueError, ZeroDivisionError):
+		print("You didn't enter a valid age.")
+	else:
+		print("No exceptions were thrown.")
+	finally:
+		file.close()
+
+
+	could also open 
+	mutliple 
+
+	# Python will automatically
+	# release both these resources
+
+	with open("app.py") as file, open("another.txt") as target:
+
+
+
+raising exceptions
+
+	def calculate_xfactor(age):
+		if age <= 10:
+			raise ValueError
+		return 10 / age
+
+
+	go to google,
+	Python 3 built-in exceptions
+
+	on the bottom,
+	can see the complete hierarchy
+
+	at the very top,
+	we have BaseException
+
+	below have 
+
+	Exception,
+	ect.
+
+	sufficient for most cases,
+	but can't identify your own,
+
+	you have to learn about classes
+	to do so 
+
+
+	def calculate_xfactor(age):
+		if age <= 10:
+			raise ValueError("Age cannot be 0 or less.")
+		return 10 / age
+
+	try:
+		calculate_xfactor(-1)
+	except ValueError as error:
+		print(error)
+
+
+	raising exceptions are costly,
+
+	you can take a different approach
+	for better performance
+
+
+cost of raising exceptions
+
+	from timit import timeit
+
+	# can calculate the execution time 
+	# of some code 
+
+	# note use triple quotes when 
+	# Python code is spread across 
+	# multiple lines
+
+
+	code1 = """
+	def calculate_xfactor(age):
+		if age <= 10:
+			raise ValueError("Age cannot be 0 or less.")
+		return 10 / age
+
+
+	try:
+		calculate_xfactor(-1)
+	except ValueError as error:
+		print(error)
+	"""
+
+	# set number to the 
+	# amount of times you want 
+	# to execute this code 
+	print(timeit(code1, number=1000))
+
+
+	it'll run that code 1000 times
+	and return the amount of time
+
+
+	you can add a label as well 
+	with print
+
+	print("first code", timeit(code1, number=1000))
+
+
+	try:
+		calculate_xfactor(-1)
+	except ValueError as error:
+		pass
+
+	the pass statement
+	doesn't do anything
+
+	as can't have an empty except 
+	block 
+
+	code2 = """
+	def calculate_xfactor(age):
+		if age <= 10:
+			return None
+		return 10 / age
+
+	xfactor = calculate_xfactor(-1)
+	if xfactor == None:
+		pass
+	"""
+
+	print("first code=", timeit(code1, number=1000))
+
+	# this implementation
+	# will be faster
+
+	think twice about raising
+	exceptions
+	and see if you can handle it
+	with a simple if statement
+
+	

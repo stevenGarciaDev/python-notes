@@ -1,0 +1,241 @@
+Python standard library
+
+working with Paths
+
+working with directories
+
+working with files
+
+working with Zip files
+
+working with CSV files
+
+working with JSON files
+
+working with a SQLite database
+
+working with Timestamps
+
+working with DateTimes
+
+working with Time Deltas
+
+generating random values
+
+opening the browser
+
+sending emails
+
+templates
+
+command-line arguments
+
+running external programs
+
+/* --------
+
+Python standard library
+
+	Python has a batteries included
+	philosophy
+
+	so it has a comprehensive list
+	of modules
+
+	that provide common features you
+	need
+
+	so will learn most commonly
+	used built-in
+
+
+
+working with Paths
+
+	from pathlib import Path
+
+
+	# pathlib is the module,
+	# Path is the class
+
+	# windows
+	Path("C:\\Program Files\\Microsoft")
+
+	with a long path,
+	the backslashes get messy
+
+	# so simplify with a raw string
+	# so that \ isn't an escape character
+
+	so it'll be taken literally as is
+
+	# so now it's a raw string
+	Path(r"C:\Program Files\Microsoft")
+
+
+	# on mac
+	Path("/usr/local/bin")
+
+
+	# so this object represents the
+	# current folder
+	Path()
+
+
+	Path("ecommerce/__init__.py")
+
+
+	# can also combine path objects together using /
+
+	Path() / Path("ecommerce")
+
+
+	or
+
+	Path() / "ecommerce" / "__init__.py"
+
+
+	to get the home directory
+	of the user
+
+	Path.home()
+
+
+	---
+
+
+
+
+working with directories
+
+working with files
+
+	from pathlib import Path
+
+	path = Path("ecommerce/__init__.py")
+
+	# check if file exist
+	path.exit()
+	path.rename("init.txt")
+	path.unlink() # delete file
+	path.stat() # returns info about the file, time values, size, ect
+
+	# for human readable time
+
+	from time import ctime
+
+	print(ctime(path.stat().st_ctime))
+
+
+	# for reading data from a file
+
+	path.read_bytes
+
+	# reads content as a string
+	print( path.read_text() )
+
+
+	# using the above function
+	# is easier than the built-in open
+	# function
+
+
+	with open
+
+		# to need pass in the mode
+		# as 2nd arg
+
+		# must be user to close it
+
+	file = open("__init__.py", "r")
+
+	file.close()
+
+
+	# for best practice use the 'with'
+	# statement which will close it for you
+
+
+	with open("__init__.py", ) as file:
+		# work with file object
+
+
+		# note that these two
+		# methods below take care
+		# of opening and closing
+		# the file
+	path.writeText("text data")
+	path.write_bytes()
+
+	# this path object is not the
+	# ideal way to copy a file
+
+
+	to copy the file to a different
+	location
+
+	source = Path("ecommerce/__init__.py")
+
+	target = Path() / "__init__.py"
+
+	# now to copy the file
+	# read the contents of the source
+
+	target.write_text(source.read_text())
+
+
+	# this is a bit tedious,
+	# there's a better way
+	# ...
+
+
+
+	there's a module called
+	shutil
+	// or shell utilities
+
+	it provides some high level
+	operations
+
+	for copying and moving
+	files and directories
+
+
+		import shutil
+
+		source = Path("ecommerce/__init__.py")
+
+		target = Path() / "__init__.py"
+
+		shutil.copy(source, target)
+
+
+
+
+
+
+working with Zip files
+
+working with CSV files
+
+working with JSON files
+
+working with a SQLite database
+
+working with Timestamps
+
+working with DateTimes
+
+working with Time Deltas
+
+generating random values
+
+opening the browser
+
+sending emails
+
+templates
+
+command-line arguments
+
+running external programs

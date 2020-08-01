@@ -1,0 +1,1011 @@
+lists
+
+accessing items
+
+list unpacking
+
+looping over lists
+
+adding or removing items
+
+finding items
+
+sorting lists
+
+lamda functions
+
+map function
+
+filter function
+
+list comprehensions
+
+zip function
+
+stacks
+
+queues
+
+tuples
+
+swapping variables
+
+arrays
+
+sets
+
+dictionaries
+
+dictionary comprehensions
+
+generator expressions
+
+unpacking operator
+
+exercise
+
+/* -------------
+
+lists
+
+  ex:
+
+  letters = ["a", "b", "c"]
+
+  can make a list of list
+  # 2D
+
+  matrix = [[0, 1], [2, 3]]
+
+  letters = ["a", "b", "c"]
+
+  // to have a list of default 0
+  // with size 100
+
+  zeros = [0] * 100
+
+  // can use + to concatenate list
+
+  combined = zeros + letters
+
+
+  elements can be different types
+
+  to have an array of a range of integers,
+
+  the list() function takes an iterable
+
+  numbers = list(range(20))
+  // will produce a range from 0 to 19
+  // it's exclusive
+
+  char = list("Hello World")
+  // makes an array where each char
+  // is an element
+
+
+  len(char)
+  # produce a length
+
+accessing items
+
+  letters[-1]
+  // return first item from the end
+  // of the list
+
+
+  can use two indexes to slice a string,
+  can do the same with array
+
+  print(letters[0:3])
+  // so this creates a new list
+  // arg 1 => start index
+  // arg 2 => how many elements (array length)
+
+  0 is assumed by default
+  letters[:3]
+
+  also if you don't specify the
+  length,
+  it'll default to the end of the list
+
+  letters[0:]
+
+
+  when slicing a string,
+  can also pass a step,
+  # can be useful
+
+  print(letters[::2])
+  # this skips every other index
+
+
+  numbers = list(range(20))
+  numbers[::2]
+  # this will return all the even numbers
+  # from 0, then skips, 2, ect.
+
+  numbers[::-1]
+  # returns all the items of the
+  # original list but in reverse order
+
+
+list unpacking
+
+  there are times when you want to get
+  individual items in a list and
+  assign them to different variables
+
+  ex:
+
+  numbers = [1, 2, 3]
+  first = numbers[0]
+  second = numbers[1]
+  third = numbers[2]
+
+  # there's a more elegant way
+  # through list unpacking
+
+
+  numbers = [1, 2, 3]
+  first, second, third = numbers
+
+  it's important that variables
+  on left side is equal to the
+  amount of elements in the array
+
+  # otherwise get an error
+  # too many items to unpack
+
+  but if have more elements,
+  but only need first two
+
+
+  # can specify the rest to put
+  # in a separate list called other
+
+  ex:
+  numbers = list(range(20))
+  first, second, *other = numbers
+
+
+  so Python interpreter, when it sees the
+  prefix of the asterisk,
+  it'll take all the elements
+  and put them into a list
+
+  # could also do
+  numbers = list(range(20))
+  first, *other, last = numbers
+
+
+looping over lists
+
+  letters = ["a", "b", "c"]
+  for letter in letters:
+    print(letter)
+
+  what if want to get the index
+  of the elements as well?
+
+  for letter in enumerate(letters):
+    print(letter)
+
+  it'll now return a tuple
+
+  (0, 'a')
+  (1, 'b')
+  (2, 'c')
+
+  a tuple is like a list, but
+  it's read only
+  // can't add new items to it
+
+  for letter in enumerate(letters):
+    print(letter[0], letter[1])
+
+
+  items = [0, "a"]
+  # unpack it
+  index, letter = items
+
+  works the same if
+  items = (0, "a")
+
+  for index, letter in enumerate(letters):
+    print(index, letter)
+
+adding or removing items
+
+  letters = ["a", "b", "c"]
+
+  # Add to the end
+  letters.append("d")
+
+  # to insert at a certain position
+  letters.insert(0, "-")
+
+  # remove at the end
+  letters.pop()
+
+  # remove at index n
+  letters.pop(0)
+
+  # remove first occurence
+  letters.remove("b")
+
+
+  can also delete
+
+  del letters[0]
+
+  # delete a range of items
+
+  del letters[0:3]
+
+  # remove all elements in the list
+  letters.clear()
+
+
+finding items
+
+  letters = ["a", "b", "c"]
+
+  print(letters.index("a"))
+
+  # if not found,
+  # then it raises an error
+
+  so should rather check if it exist
+
+  if "d" in letters:
+    print(letters.index("d"))
+
+
+  # returns the amount of occurences
+  letters.count("d")
+
+
+sorting lists
+
+  numbers = [3, 51, 2, 8, 6]
+  numbers.sort()
+
+  to sort in descending order,
+  pass arg
+
+
+  # returns a new list
+  numbers.sort(reverse=True)
+
+  also have built in function
+  that takes an iterable arg
+
+  # returns a new list
+  sorted(numbers)
+
+  sorted(numbers, reverse=True)
+
+
+  what about sorted complex objects?
+
+  such as processing orders
+
+  items = [
+    ("Product1", 10),
+    ("Product2", 9),
+    ("Product3", 12)
+  ]
+
+  # nothing will be changed
+  # as Python doesn't know
+  # how to sort this list
+  items.sort()
+
+  so in these cases you need to define
+  a function
+  that Python will use for sorting
+  list
+
+  def sort_item(item):
+    # return a value to be used for sorting, by price
+    return item[1]
+
+  it just returns that price,
+  now Python can use that function
+  to determine what to compare
+  for the sorting function
+
+  items.sort(key=sort_item)
+
+  # you DO NOT invoke that function,
+  # you simply pass a reference
+  # as the arg
+
+  it passes each item to the
+  sort_item arg passed
+
+
+
+lambda functions
+
+  lambda expression,
+  a simple, one line anonymous
+  function
+  that can pass to other functions
+
+  so can improve the implementation
+
+
+  # think anonymous function
+
+  # lambda parameters:expression
+
+  items.sort(key=lambda item:item[1])
+
+
+    high level syntax
+    of what to pass in
+
+    lambda arg: returnVal
+
+
+map function
+
+  items = [
+    ("Product1", 10),
+    ("Product2", 9),
+    ("Product3", 12)
+  ]
+
+  now we want to modify it
+  to a different shape
+
+  want to transform it into
+  a list of numbers
+  # prices
+
+  prices = []
+  for item in items:
+    prices.append(item[1])
+
+
+  # but can do it another way
+  # with .map() method
+
+  prices = map(lambda item: item[1], items)
+
+  # can make it a list
+
+   prices = list(map(lambda item: item[1], items))
+
+
+   x = map(lambda item: item[1], items)
+
+   for item in x:
+    print(x)
+
+
+
+
+filter function
+
+  another scenario for using
+  a lambda function
+
+  items = [
+    ("Products1", 10),
+    ("Products2", 9),
+    (Products3", 12),
+  ]
+
+  use the built in filter function
+
+  it takes two param,
+  a function and an iterable,
+  and applies the function
+  for each item in the iterable
+
+  if it matches the criteria
+  then it returns it
+
+    in high level overview
+
+    lambda currentElement: conditional to determine filter,
+    iterableCollection
+
+  x = filter(lambda item: item[1] > 10, items)
+
+  print(x)
+
+
+
+
+list comprehensions
+
+  so the concept of
+  .map and .list is
+  from the functional programming
+  paradigm
+
+  but in Python
+  we have another feature
+  for the same result
+
+  it's known as comprehension
+
+  the basic syntax
+
+  // write a comprehension expression
+  [expession for item in items]
+
+  so we iterate over an iterable
+  and apply an expression for
+  each item
+
+    ex:
+
+      [item[1] for item in items]
+
+      // same exact result as .map
+
+
+    prices =  [item[1] for item in items]
+
+    # it's cleaner
+    # and the preferred way
+
+    # they also perform better
+
+
+  so for filtering
+
+  filtered = [item for item in items if item[i] >= 10]
+
+
+
+zip function
+
+  lets say you want to combine
+  these two list
+  into a tuple
+
+  list1 = [1, 2, 3]
+  list2 = [10, 20, 30]
+
+  [(1, 10), (2, 20), (3, 30)]
+
+
+  can use list comprehension
+  or map
+
+  but Python has the built-in
+  zip function for this
+
+
+  basically it combines multiple
+  iterables
+
+  print(zip(list1, list2))
+
+  // returns an iterable
+
+  print(list(zip(list1, list2)))
+
+
+  you could also pass a string,
+
+
+
+
+stacks
+
+  LIFO
+
+  // last in - first out
+
+  very common in real world applications
+
+  such as browser session,
+  in a stack
+
+  for the use of the back button
+
+
+  in Python,
+  can use a list object
+  as a stack
+
+  browsing_session = []
+  browsing_session.append(1)
+  browsing_session.append(2)
+  browsing_session.append(3)
+
+  browsing_session.pop()
+  browsing_session.pop()
+  browsing_session.pop()
+
+
+  so the stack data structure
+  essentially requires that you
+  append and pop from the same
+  side of a collection
+
+
+  // if doesn't have any elements
+  if not browsing_session:
+    print("no back button")
+
+queues
+
+  // FIFO
+  first in - first out
+
+  resembles a queue in
+  the real world
+
+  // can use a list again
+
+  basically you
+  would remove from the beginning
+  and append to the end
+
+  but if a large queue,
+  then it's a performance problem
+
+  every time you remove from the
+  beginning,
+  every other item needs
+  to shift to the list
+
+  in situations like that
+  it's more performant
+  to use a dequeue object
+
+
+  so first import deque
+  from the collections module
+
+    a module is a file with
+    reusable code
+
+    // deque is a class
+
+  from collections import deque
+
+  queue = dequeue([])
+  // pass an empty list as an arg
+
+  queue.append(1)
+  queue.append(2)
+  queue.append(3)
+
+  queue.popleft()
+
+  print(queue)
+
+
+  can easily check if the list
+  is empty using the 'not' operator
+
+  # if not any elements in queue
+  if not queue:
+    print("empty")
+
+tuples
+
+  a tuple is a read-only list
+
+  it contains objects,
+  but can't modify it
+
+  // an immutable array
+
+  use paranthesis rather than []
+
+  point = (1, 2)
+
+
+  you could also exclude the
+  parenthesis and Python will
+  still see it as a tuple
+
+    point = 1, 2
+
+
+    print(type(point))
+
+  if only 1 item, then must
+  provide a trailing comma
+
+    point = 1,
+    # otherwise it'll be seen
+    # as an integer
+
+  point = ()
+
+  you can concatanate two tuples
+
+  point = (1, 2) + (3, 4)
+
+  print(point)
+
+
+  // can also use the * operator
+
+
+  can also convert a list to a tuple
+
+    point = [1, 2]
+
+    # cast it
+    tuplePoint = tuple(point)
+
+
+  num1, num2 = point
+  if 10 in point:
+    print("exist")
+
+
+  so where in the real world
+  would you use tuples?
+
+    if you have objects,
+    and you want to ensure
+    that you don't modify it
+
+    you would use a tuple
+    to prevent accidental errors
+
+
+
+swapping variables
+
+  x = 10
+  y = 11
+
+  x, y = y, x
+
+  # on the right side,
+  # you are defining a tuple
+
+  # so under the hood
+  # x, y = (11, 10)
+
+
+
+arrays
+
+  if dealing with a large sequence
+  of numbers
+
+  have a more efficient data type
+  in Python
+  called arrays
+
+  they perform a bit faster
+  and take less memory than
+  the list data structure
+  in Python
+
+
+  will only see the benefit
+  when dealing with
+  lengths of 10,000 or more
+
+  usually you can just use the list
+  data structure
+
+  // don't optimize prematurely
+
+
+  so must import the array data
+  structure
+
+  # from the array module (file)
+  # import the array class
+  from array import array
+
+    # the first arg is the type
+
+    # search up Python3 typecode
+    # so it's just one char
+    numbers = array("i", [1, 2, 3])
+
+    numbers.append(4)
+    numbers.insert(0, 1)
+    numbers[0]
+    numbers.pop()
+
+  HOWEVER
+
+  the objects in the array are
+  typed, so must be the same
+  data type
+
+  otherwise will get a TypeError
+
+
+sets
+
+  basically it's a collection
+  with no duplicates
+
+  so to remove duplicates
+  in a set,
+  simply cast a list to a set
+
+  numbers = [1, 1, 2, 3]
+
+  my_set = set(numbers)
+
+  # also wrapped in curly braces
+
+  second_set = {1, 4}
+
+  second_set.add(5)
+  second_set.remove(5)
+
+  len(my_set)
+
+
+  main benefit of sets is the
+  use of Math functions
+
+
+  # a union of two sets,
+  # with unique elements
+
+  third_set = my_set | second_set
+
+
+  # intersection
+
+  third_set = my_set & second_set
+
+
+  # the difference between
+  # two sets
+
+  third_set = my_set - second_set
+
+
+  # return elements that are
+  # not found in both
+  third_set = my_set ^ second_set
+
+
+  unlike list,
+  sets are unordered
+
+  so can't access via index
+  # will get TypeError
+
+  check for the existance
+
+  if 1 in first:
+    print("found")
+
+dictionaries
+
+  very powerful data structure,
+
+  a collection of key => value
+  pairs
+
+
+  # an empty dictionary
+  point = {}
+
+  point = {"x": 1, "y": 2}
+
+
+  also have dict() to
+  cast to a dictionary
+
+  point = dict(x=1, y=2)
+
+  point["x"]
+
+
+  if attempt to read an invalid
+  key, it raises an error
+
+  two work arounds,
+
+    - check for the existence of a key
+
+      if "a" in point:
+        print(point["a"])
+
+    - use the get method
+
+      print( point.get("a") )
+
+      # returns None if
+      # it doesn't exist
+
+      or could pass a second arg
+      for the default value
+      if the key is not found
+
+
+  del point["x"]
+
+
+  to loop over dictionaries
+
+  for key in point:
+    print(x)
+
+  each iteration goes through
+  the key of the item
+
+  for key in point:
+    print(key, point[key])
+
+
+  another way to iterate
+
+  for item in point.items():
+    print(x)
+
+  so each iteration
+  will be a tuple
+
+  for key, value in point.items():
+    print(key, value)
+
+
+
+
+
+dictionary comprehensions
+
+  values = [x * 2 for x in range(5)]
+
+  # wrapping it in { } produces a set
+
+
+  values = {x: x * 2 for x in range(5)}
+
+
+
+  # think of comprehensions
+  # when iterating and creating
+  # a new collection
+
+
+generator expressions
+
+  there are situations
+  when working with
+  a long data set
+
+  # or an infinite stream of data
+
+  # don't store that in memory
+
+  for example
+  the range of a billion,
+
+  we don't want to store a billion
+  objects in memory
+
+  in these situations,
+  use a generator object
+
+  generator objects are iterable
+  and spit out a new value
+  for each iteration
+
+  so unlike list they don't
+  store all the values in memory
+
+  values = (x * 2 for x in range(10))
+
+  # values is not a list,
+  # it's a generator
+
+  print(values)
+
+
+  what's interesting is the size
+  of the generator object
+
+
+  from sys import getsizeof
+
+
+  print('gen: ', getsizeof(values))
+
+  // will be in bytes
+
+  it remains consistent
+  even as the input grows
+
+
+  it has no len()
+  as it's only accessible
+  when iterating
+
+
+unpacking operator
+
+  one helpful operator
+  when working with data structures
+
+  numbers = [1, 2, 3]
+
+  print(numbers)
+
+
+  # all you need to do is
+  # prefix with the unpacking
+  # operator, *
+
+  print(*numbers)
+
+  # same as the spread operator
+
+
+  it outputs the list without
+  the brackets
+
+  --
+
+  also for creating list,
+
+  values = list(range(5))
+
+
+  instead of casting to list,
+  use unpacking
+
+  # unpack the iterable,
+  # which means take individual
+  # values
+  values = [*range(5)]
+
+
+
+  can also combine two list
+
+  values = [*first, *second]
+
+
+
+  to unpack dictionaries,
+  need two asterisks
+
+  first = {"x": 1}
+  second = {"x": 10, "y": 2}
+
+  # to combine them
+
+  combined = {**first, **second, "z": 1}
+  print(combined)
+
+  # so if multiple values
+  # with the same key,
+  # the last occurence will be used
+
+exercise
+
+  # find most repeated char
+
+  # brute force solution
+
+  def maxChar(sentence):
+    dict = {}
+    max_char = sentence[0].lower()
+    for char in sentence:
+      char = char.lower()
+      if char in dict:
+        dict[char] += 1
+        max_char = char if dict[char] > dict[max_char]
+      else:
+        dict[char] = 1
+    return dict
+
+    ...

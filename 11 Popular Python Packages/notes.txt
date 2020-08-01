@@ -1,0 +1,93 @@
+introduction
+
+What are APIs?
+
+Yelp API
+
+searching for businesses
+
+hiding API keys
+
+sending text messages
+
+web scraping
+
+browser automation
+
+working with PDFs
+
+working with Excep Spreadsheets
+
+command query separation principle
+
+NumPy
+
+/* -------
+
+introduction
+
+What are APIs?
+
+	Websites make their
+	data available through APIs
+
+	These are publically accessible
+	endpoints,
+	which have urls
+	just like a website.
+
+	// publically available
+	// on internet
+
+
+	so can send an HTTP request
+	to the endpoint
+	to retrieve data
+
+	HTTP is the protocol
+	that powers the web
+
+	browser sends HTTP request
+	to web servers and
+	gets a response
+
+	open up developer tools,
+	Network tab,
+
+	refresh the page,
+	it'll show all the
+	HTTP request
+
+
+	status code
+	200 indicates success
+
+	look at response tab,
+
+	will see the response
+	that web server
+	sent to our browser,
+
+	// it's essentially
+	// a preview for the webpage
+
+
+Yelp API
+
+searching for businesses
+
+hiding API keys
+
+sending text messages
+
+web scraping
+
+browser automation
+
+working with PDFs
+
+working with Excel Spreadsheets
+
+command query separation principle
+
+NumPy

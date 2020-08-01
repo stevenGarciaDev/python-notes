@@ -1,0 +1,301 @@
+What is Python
+
+installing Python
+
+Python Interpreter
+
+Code Editors
+
+Your first Python Program
+
+Python Extension
+
+Linting Python Code
+
+Formatting Python Code
+
+Python Implementations
+
+How Python Code is Executed
+
+Quiz
+
+/* ---------
+
+What is Python
+
+  used for Software Engineers
+  as well as data analyst,
+  scientist, accountants,
+  network engineers, mathematicians, ect
+
+  has a clean syntax,
+
+  solve complex problems in less
+  time with fewer lines of code
+
+  // in JS
+  str.substr(0, 3);
+
+  // in Python
+  str[0:3]
+
+  Python is multi-purpose
+
+  can do a lot such as
+
+  - data analysis
+  - AI/ML
+  - automation scripts
+  - web apps
+  - mobile apps
+  - desktop apps
+  - software testing
+  - hacking
+
+  high paying,
+  average is $115,000
+
+  Python is a high level language
+
+  - high-level (abstraction)
+    // don't deal with memory
+  - cross-platform
+  - huge community
+  - large ecosystem of open source
+
+  Python 2 will stop being
+  supported in 2020
+  // legacy
+
+  Python 3
+  // future
+
+
+installing Python
+
+  from python.org
+
+  downloads
+
+  click on checkbox,
+  'add Python to PATH'
+
+  on windows
+
+  cmd in search bar
+
+  in there
+
+  > python
+
+  // to exit
+  control + z + enter
+
+  --
+
+  on Mac
+
+  in terminal
+
+  $ python
+
+  // Mac and Linux come with Python 2
+  // installed
+
+  so exit
+  with control + d + enter
+
+  $ python3
+
+Python Interpreter
+
+  $ python3
+
+  // this opens up the
+  // python Interpreter
+
+  // it's a program that executes
+  // Python code
+
+  so can write an expression
+  // expression is some code
+  // that returns/results some value
+
+  boolean values of
+  True
+  False
+
+  will also display syntax errors
+
+
+
+
+Code Editors
+
+  with Python, have two options
+
+  use an Editor
+  or
+  an IDE
+
+  IDE's provide
+    - autocompletion
+    - debugging
+    - testing
+
+  most popular editor is
+  VSCode
+  Atom
+  Sublime
+
+  IDE
+  is PyCharm
+
+
+Your first Python Program
+
+  $ mkdir HelloWorld
+
+  $ touch app.py
+
+  call the function
+
+  print("Hello")
+
+  in VSCode
+
+  have an integrated terminal
+
+  keyboard shortcut
+  is
+
+  ctrl + `
+
+  $ python3 app.py
+
+  --
+
+  print("Testing")
+  print("*" * 10)
+
+Python Extension
+
+  convert VScode into a powerful
+  IDE
+  using extension, 'python'
+
+  get some features such as
+    - Linting
+    - autocompletion
+    - unit testing
+    - debugging
+    - code formatting
+    - code snippets
+
+  linter pylint
+  // needs to be installed
+
+  it's a tool that analyzes code
+  and finds potential problems
+
+  select python3
+
+  .....
+
+
+Linting Python Code
+
+  once installed
+
+  write some invalid python
+
+  print "testing"
+
+  // hover over with mouse
+
+  -
+
+  now for some shortcuts,
+
+  View tab,
+  Problems
+  // for Mac
+  // shift + cmd + m
+
+  command pallette
+
+  pylint is most popular
+
+  the lints differ in how
+  they find and report errors
+
+  some error messages
+  are more friendly
+
+Formatting Python Code
+
+  have a bunch of documents called
+
+  'Python Enhancement Proposals'
+  // peps
+
+  it'll automatically format
+  your code
+
+
+Python Implementations
+
+  to run this Python
+
+  $ python3 app.py
+
+  you can install code runner,
+  so instead of manually
+  executing in terminal
+
+  all you have to do is
+  ctrl + alt + n
+
+
+  in User settings
+
+  cpython is the default
+  implementation of python,
+
+  other ones include
+
+  cPython / default
+  Jython // Java
+  IronPython // C#
+  PyPy  // subset of Python
+
+  variety
+  based on disagreements
+
+  one technical reason behind it
+
+  allows you to reuse existing
+  code in the program,
+  based on the core language
+  of the Python implementation
+
+
+How Python Code is Executed
+
+  machine code is based on the
+  processor of the computer
+
+  windows and mac have different
+  machine code
+
+  Java solves this by compiling
+  it into Java Bytecode
+  // run it on a Java Virtual Machine
+  // which converts to machine code
+
+  Python results in Python Bytecode
+
+
+
+Quiz

@@ -1,0 +1,205 @@
+Variables
+
+Variable names
+
+strings
+
+escape sequences
+
+formatted strings
+
+string methods
+
+numbers
+
+working with Numbers
+
+type conversion
+
+quiz
+
+/* ----------
+
+Variables
+
+  core concept,
+
+  use it to store data in
+  a computer's memory
+
+  students_count = 1000
+  print(students_count)
+
+  4.99 # float
+
+  True || False
+
+  course_name = "Python Programming"
+
+
+Variable names
+
+  you want your code to read
+  like a story,
+
+  should be easy to read
+
+strings
+
+  message = """
+  This is a long
+  message defined
+  over multiple lines
+  """
+
+  some useful things with strings
+
+  have built in functions
+  for getting the length
+
+  len(course)
+  // so we call that function
+
+  print(course[-1])
+  // returns the first character
+  // from the end of the string
+
+  print(course[0:3])
+  // return a new string
+  // arg 1 -> first index
+  // arg 2 -> last index (exclusive)
+
+  course[:3]
+
+  course[:]
+  // return a copy of the original string
+
+
+escape sequences
+
+  course = "Python \"Programming\""
+
+  or could use single quotes
+
+
+
+formatted strings
+
+  can use concatenation
+
+  but modern approach is formatted strings
+
+  first = "Steven"
+  last = "Garcia"
+  full = f"{first} {last}"
+
+  you can put any expression within
+  { }
+
+
+string methods
+
+  have many methods available
+  for strings
+
+  an autocompletion tool would
+  be helpful
+
+  everything in Python
+  is an object
+
+  course_capital = course.upper()
+
+  course.lower()
+  course.title()
+  // capitalize first letter of every word
+
+  course.strip() // trim white space for user input
+
+  course.lstrip()
+  course.rstrip()
+
+
+  course.find("pro")
+  // will return the index
+
+  course.replace("p", "j")
+
+  print("pro" in course)
+  // this checks if pro is in course
+  // the find() method returns
+  // an index
+  // whereas this expression
+  // returns boolean
+
+  print("swift" not in course)
+
+
+numbers
+
+  3 types of Numbers
+
+  integers, floats, and complex numbers for math
+
+  // such as
+  // a + bi where i is an imaginary number
+  // this is for mathematics
+  // and electrical engineering
+  // use j in place of i
+
+  x = 1 + 2j
+
+  have a special operator
+  augmented assignment operator
+
+  x = 10
+  x += 3
+
+
+working with Numbers
+
+  print(round(2.9))
+
+  abs(-2.9)
+  // returns 2.9
+
+  if writing complex mathematical
+  calculation need to
+  use the Math module
+
+  import math
+
+  // math will have many methods
+  print( math.ceil(2.2) )
+  // returns 3,
+  // so it rounds up
+
+
+type conversion
+
+  a useful built in function
+
+  # get input from user
+  # arg is the prompt
+  x = input("x: ")
+
+  # not that input is always read
+  # as a string
+
+  # so need to cast
+  we have int(x)
+  float(x)
+  bool(x)
+  str(x)
+
+  print(type(x))
+  num = int(x)
+  y = num + 1
+
+  # Falsy
+  # ""
+  # 0
+  # None
+
+
+quiz

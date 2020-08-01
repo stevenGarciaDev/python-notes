@@ -1,0 +1,455 @@
+creating modules
+
+compiled Python files
+
+module search path
+
+packages
+
+sub-packages
+
+intra-package references
+
+the dir function
+
+executing modules as scripts
+
+/* -------
+
+creating modules
+
+	don't want to write
+	all your code in one file
+
+	it can have thousands
+	of lines in one file
+	# don't
+
+	that's why supermarkets
+	have aisles
+
+	so split code across
+	multiple file
+
+	we refer to these as modules
+
+	a module is a file
+	that contains some python code
+
+	How to decide which
+	file to put in what modules??
+
+	each aisle in the market
+	have highly related products,
+
+	likewise,
+
+	should contain highly related
+	objects
+
+
+	$ touch sales.py
+
+	use all lowercase, snakecase
+
+
+	within
+
+	def calc_tax():
+
+
+
+	then in app.py
+
+
+	convention is
+	# from module import objectName
+	# can also import a function
+
+	ex:
+
+
+		# from module import objectName
+
+	from sales import calc_shipping
+
+	# now for importing multiple
+	# objects
+
+	from sales import calc_shipping, calc_tax
+
+	calc_shipping()
+	calc_tax()
+
+
+
+	it's bad practice but you can
+	do
+
+	from sales import *
+
+	# bad practice,
+	# and could be importing
+	# modules that overwrite
+	# objects with same name
+	# in the current module
+
+	only import what you need
+
+
+	there's another way to import
+
+
+	import nameOfModule
+
+	now have an object
+	and use dot operator to
+	access it's members
+
+
+	ex:
+
+	import sales
+
+	sales.calc_shipping()
+
+
+
+	--
+	so basically can import
+	the entire module as an object
+
+	or specific objects from that module
+
+
+
+
+
+compiled Python files
+
+	currently have
+	app.py # entry point of program
+
+	sales.py
+
+
+	$ python3 app.py
+
+	it creates a new folder
+
+	_pycache_
+
+	have the compiled version
+	of the modules you
+	import into the project
+
+	Python stores this
+	for module loading
+	so that next time you
+	run your program
+
+	Python will look at content
+	and will load the compiled
+	version as
+	to skip the compiling
+	step for that imported
+	module
+	and will speed up
+
+	# not performance of the app
+	# just the compiling of the module
+
+
+	it checks the datetime
+	of the files
+	for the source code
+	and the compiled code
+
+	otherwise it'll recompile
+
+
+	in that file,
+	it has Python bytecode
+
+	Python always
+	recompiles the one
+	from the command line
+
+
+
+
+module search path
+
+	import sales
+
+	# Python will look for sales.py
+	# in the current directory
+	# if not found
+	# then it'll look at
+	# pre-defined
+	# directories that come
+	# with Python installation
+
+
+	import sys
+
+	print(sys.path)
+
+	# this shows the path
+	# Python takes to find
+	# a module
+
+
+	so when Python sees
+	an import
+	it begins searching
+	directories for that module
+	and stops upon finding
+
+
+	to import a module
+	from a subdirectory,
+	use packages
+
+packages
+
+	as application grows,
+	want to organize
+	files into subdirectories,
+
+	don't want to have
+	thousands of files
+	or thousands of python
+	modules into one folder
+	BAD
+
+	$ mkdir ecommerce
+
+	put sales.py within
+
+	now in app.py
+
+
+	in ecommerce/ add
+	a new file
+
+	$ touch __init__.py
+
+	so with this file added,
+	Python will now treat
+	this folder as a package
+
+	a package is a container
+	for one or more modules
+
+	in File system,
+	a package is mapped
+	to a directory
+
+	and a module is mapped
+	to a file
+
+
+	so now in app.py
+
+	prefix it with the name
+	of the package
+
+		# import packageName.moduleName
+
+	import ecommerce.sales
+
+	now to use the objects,
+
+	must prefix them
+
+
+	ecommerce.sales.calc_tax()
+
+	# pretty noisy
+
+	--
+
+	a better approach is
+	to use the from statement
+
+
+		from packageName.moduleName import objectName
+
+	from ecommerce.sales import calc_tax
+
+	calc_tax()
+
+
+
+	# can also import multiple
+	from ecommerce.sales import calc_tax, calc_shipping
+
+	if too noisy,
+	can take a different
+	approach
+
+
+	from ecommerce import sales
+
+	# so from that package,
+	# import this module
+
+		from packageName import moduleName
+
+
+sub-packages
+
+	as programs grow,
+	may want to break down
+	your packages
+	into subpackages
+
+	in ecommerce/
+
+		shopping/
+			__init__.py
+
+	and then move the sales.py
+	module into shopping/
+
+	so the file structure will look like
+
+	ecommerce/
+		shopping/
+			__init__.py
+			sales.py
+
+
+
+	from ecommerce.shopping import sales
+
+		from packageName.subPackageName import moduleName
+
+
+
+intra-package references
+
+	there are times
+	want to import modules
+	from sibling packages
+
+
+	so in ecommerce/
+		customer/
+			__init__.py
+			contact.py
+		shopping/
+			__init__.py
+			sales.py
+
+	so in sales.py
+	want to use it in the
+	customer package
+
+	to import a module
+	from another package
+
+	can use an absolute
+	or a relative import statement
+
+		from topLevelPackage.subPackage import moduleName
+
+
+	so in sales.py
+
+	# absolute import
+
+	from ecommerce.customer import contact
+
+		contact.contact_customer()
+
+
+	# avoid relative imports
+	# for a relative import
+	// .. goes up one level,
+
+
+	from ..customer import contact
+
+
+
+
+the dir function
+
+	a powerful built in function,
+	dir
+
+	with this function
+
+	can get the list of
+	attributes and
+	methods found in an object
+
+	from ecommerce.shopping import sales
+
+
+
+	there are times when things
+	don't work as expected,
+	so you can use the dir function
+	for debugging
+
+
+	print(dir(sales))
+
+	# it returns an array
+	# of strings
+	# of all the attributes
+
+	# and methods defined
+	# in that object
+
+	as well as the magic
+	attributes created for you
+
+	print(sales.__name__)
+	print(sales.__package__)
+	print(sales.__file__)
+
+
+
+
+executing modules as scripts
+
+	can write any statements
+
+	and they'll be executed
+	the first time
+	the module is loaded
+
+	so if import it,
+	Python will load it only
+	once,
+	and then cache it in memory
+
+
+	print("Sales initialized")
+
+
+	in app.py
+
+	can do command + p
+	to search for file
+
+		from ecommerce.shopping import sales
+
+	# if go to the __init__.py
+	# file within shopping/
+	do
+
+	print("Ecommerce initialized")
+
+
+
+	every module has built in
+
+	__name__ automatically
+	created for you
+
+	print("Sales initialized", __name__)

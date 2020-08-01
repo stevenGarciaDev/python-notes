@@ -1,0 +1,265 @@
+defining functions
+
+arguments
+
+types of functions
+
+keyword arguments
+
+default arguments
+
+xargs
+
+xxargs
+
+scope
+
+debugging
+
+VSCode coding tricks - windows
+
+VSCode coding tricks - mac
+
+exercise
+
+solution
+
+a quick note
+
+/* -------
+
+defining functions
+
+  so far have used the built
+  in functions
+
+  print()
+  round()
+
+  def greet():
+    print("Hi there")
+    print("Welcome aboard")
+
+
+  greet()
+
+
+  # use two line breaks after the
+  # function definition
+  # as a best practice
+
+arguments
+
+  def greet(first_name, last_name):
+    print(f"Hi {first_name} {last_name}")
+    print("Welcome aboard")
+
+
+  greet("Steven", "Garcia")
+
+
+
+types of functions
+
+  two types of functions
+  1) perform a task
+  2) calculate and return a value
+
+  def greet(name):
+    print(f"Hi {name}")
+
+  so going with the implementation
+  for #2 leads to more
+  flexibility with what you
+  want to do with that result
+
+
+  None is the default return value,
+  all functions in Python
+  return a value
+
+
+keyword arguments
+
+  def increment(number, by):
+    return number + by
+
+
+  print( increment(2, 1) )
+
+  # under the hood,
+  the result of increment is stored
+  in a hidden variable,
+  then passed to print
+
+
+  so you can make the code more
+  readable by using a keyword
+  argument
+
+  using prefixes
+
+  print( increment(2, by=1) )
+
+
+default arguments
+
+  def increment(number, by=1):
+    return number + by
+
+  print(increment(2))
+
+
+  so optional (default) parameters must
+  come after the required parameters
+
+  // can think of default parameters
+  // as optional parameters
+
+
+xargs
+
+  there are times when you must
+  create a function that takes a variable
+  number of arguments
+
+  def multiply(x, y):
+    return x * y
+
+
+  multiply(2, 3)
+
+  // what if want to pass more arg?
+
+  replace with ...
+
+    // so convention is to make it
+    // plural and then
+    // prefix with an asterisk
+
+  def multiply(*numbers):
+    ...
+
+
+  so they are packed in ( )
+
+  list are made with []
+
+  only difference is the notation
+
+  ( ) to make tuples
+  // similar to list in that
+  // it's a collection of objects
+
+  the difference between
+  lists and tuples
+  is that tuples are immutable
+
+  // can't be modified
+
+
+  they are both iterable
+  // therefor usable in loops
+
+  def multiply(*numbers):
+    product = 1
+    for num in numbers:
+      total *= number
+    return total
+
+
+  # above uses the
+  # augmented assignment operator
+
+
+xxargs
+
+  variation of the syntax
+  which uses double asterisk
+
+
+
+  def save_user(**user):
+      print(user)
+
+
+  # can pass arbitrary amount
+  # of keyword arguments
+  save_user(id=1, name="John", age=22)
+
+  # the param creates a dictionary
+  # a data structure consisting
+  # of key => value pairs
+
+scope
+
+  important concept,
+
+  in what context does the variable exist
+  // in memory
+
+  local variables are those
+  within a function/method
+
+  they're on the stack
+
+  Python interpreter will reference
+  those memory locations,
+  and will be garbage collected,
+  // it'll release the memory
+  // allocated
+
+  Global variables in Python,
+
+  // accessible anywhere in the File
+  // stay in memory for longer
+
+  // should not use
+
+
+  # bad practice,
+   but you can change the value
+   of a global variable
+   within a function
+
+  def greet(name):
+    global message
+    message = "b"
+
+
+  bad practice and other functions
+  may rely on the initially assigned value
+  of the global variable
+
+
+  Global variables are BAD.
+
+debugging
+
+  must use debugging panel
+
+  click icon and see
+  default launch.json
+  for debugger config
+
+  press
+  function key and then fn + f9
+  to set a breakpoint in VSCode
+
+  f10 executes one
+  statement at a time
+
+
+
+
+VSCode coding tricks - windows
+
+VSCode coding tricks - mac
+
+exercise
+
+
+
+solution
+
+a quick note

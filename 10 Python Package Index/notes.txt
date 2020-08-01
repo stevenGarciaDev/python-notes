@@ -1,0 +1,452 @@
+Pypi
+
+Pip
+
+virtual environments
+
+Pipenv
+
+virtual environments in VSCode
+
+Pipfile
+
+managing dependencies
+
+publishing packages
+
+Docstrings
+
+Pydoc
+
+/* ------
+
+Pypi
+
+	Python standard library
+	doesn't have everything
+	you need when building
+	an application
+
+	pypi.org
+
+	# python package index
+
+	// it's like npm
+	// for JavaScript
+
+
+	// search up
+	// best python packages for n
+
+Pip
+
+	$ pip
+
+	$ pip3
+
+	# pip installs packages
+
+	# it installs, downgrades,
+	# and list the current packages
+
+	$ pip3 install requests
+
+		# so installing requests
+		# object which can be used
+		# to send http request
+
+	to upgrade pip
+
+		$ pip install --upgrade pip
+
+	$ pip3 list
+
+		displays the semantic
+		versioning
+
+		versionNumber.minorNumber.patchNumber
+
+	$ pip3 install requests==2.9.0
+	# so can specify which
+	# version you want
+
+		$ pip3 install requests==2.9.*
+
+		# latest patch version
+		# so latest
+		# compatible version
+
+	$ pip uninstall requests
+
+	another syntax to install
+
+	$ pip3 install requests~=2.9.0
+	// installs latest compatible
+	// version
+
+
+		pip3 install requests~=2.*
+
+
+	import requests
+
+	response = requests.get("http://google.com")
+	print(response)
+
+
+virtual environments
+
+	$ pip3 list
+
+	you see that there are packages
+	with specific version numbers
+
+	this is a potential problem
+	as there may be different
+	projects that use
+	previous or newer versions
+
+
+	with current structure
+	you can only have one version installed
+
+
+	so with a virtual env
+	you can have an isolated
+	env to install the dependencies
+
+	// basically an isolated
+	// custom env
+
+	$ python3 -m venv env
+	// specify a directory
+	// for containing
+	// the virtual env,
+	// here we are just
+	// calling it env
+
+
+	in env/
+
+	$ cd env/
+
+		within
+
+		pyvenv.cfg
+
+		in that file
+
+		ex:
+
+		will set params
+
+		ex:
+
+		home = /usr/local/bin
+		include-system-site-packages = false
+		version = 3.7.0
+
+	will also have bin/
+		within have
+		python and pip installed
+
+	include/
+	lib/
+		python3.7
+		site-packages/
+			(this is where
+			install the packages
+			for this application)
+
+
+	so a virtual directory
+	is an isolated environment
+	where have a specific
+	python interpreter
+	and a bunch of packages
+	that the app needs
+
+	now need to activate
+	that virtual env
+
+	in bin/
+		has a file
+		activate
+
+	need to activate
+	from the terminal
+
+	in mac/linux
+
+	$ source env/bin/activate
+
+	will display the currently
+	active virtual env in ()
+
+	(env) $
+
+	// you could call it anything
+	// but commonly by convention
+	// you use env
+
+
+	now in that virtual env
+	// can install an ealier
+	// version of the request package
+	// that differs
+
+	(env) $ pip install requests=2.92
+
+	under site-packages/
+		now you have
+		installed the
+		request package
+
+	finally
+	when done,
+
+	need to deactivate
+	the virtual env
+
+	(env) $ deactivate
+
+
+Pipenv
+
+	using pip and virtualenv
+	requires
+	lots of commmands
+
+	so that's where pipenv comes in
+
+	it combines both pip and
+	virtual env into a single tool
+
+	so you don't have
+	to use them separately
+
+
+	it's like npm,
+
+	pipenv is the equivalent
+	in the Python world
+
+	it's a dependency manager
+	for Python projects
+
+
+	internally it uses
+	Pip and virtual env
+	so you should know
+	what's going on
+	under the hood
+
+	$ pip3 install pipenv
+
+	now use pipenv
+	to install a package
+
+		$ pipenv install request
+
+	# it creates a Pipfile
+	# and Pipfile.lock
+
+	# it also created a virtual env
+	# the virtual env
+	# from terminal
+
+		$ pipenv --venv
+
+	that'll show the path to
+	the virtual env directory
+
+	won't be part of the project
+	because
+	as you install various packages
+
+	end up with hundreds/thousands
+	of files in the virtual env
+	and that would increase
+	the size of your project
+
+	so want to exclude
+	the virtual env from
+	your project directory
+
+	so to uninstall the request
+	package that you previously
+	installed globally
+
+		$ pip3 uninstall request
+
+	$ python3 app.py
+
+	get a module not found
+	as it's doesn't know
+	where it's installed
+	or where the virtual env is
+
+	so
+
+	need to activate it
+
+		$ pipenv shell
+
+		# this activates
+		the virtual env
+		for current directory project
+
+	now in the env
+
+	# to deactivate
+
+	$ exit
+
+
+
+virtual environments in VSCode
+
+Pipfile
+
+
+
+managing dependencies
+
+publishing packages
+
+Docstrings
+
+	def convert():
+		print("to f")
+
+
+	when publish package
+	it's important to document it
+
+	the intelisense,
+	reads the documentation for the
+	method and displays it
+
+	in a real application,
+	it could have one or more
+	parameters
+
+	use """
+	after the declaration of a variable
+
+	comments are to explain
+	WHY we have done things in a certain
+	way
+
+	NOT WHAT it does
+
+
+	so
+
+	""" One line description.
+
+		A little more description.
+	"""
+
+	to explain more use a multi-line
+	docstring
+
+	first line is a short summary
+
+	blank line
+	then a more detailed explanation
+
+
+	first line of the file
+
+	""" This module provides functions to convert a PDF to text. """"
+
+
+	def convert():
+		"""
+		Convert the given PDF to text.
+
+		Parameters:
+		path (str): The path to a PDF file.
+
+		Returns:
+		str: The content of the PDF file as text.
+		"""
+		print("pdf2text")
+
+
+
+	from moshpdf import pdf2text
+
+
+
+	---
+
+	now within on the first line,
+	add a docstring which
+	summarizes the behavior
+	of this class
+
+	class Converter:
+		""" A simple converter for converting PDFs to text. """
+
+		def convert(self, path):
+		"""
+		Convert the given PDF to text.
+
+		Parameters:
+		path (str): The path to a PDF file.
+
+		Returns:
+		str: The content of the PDF file as text.
+		"""
+		print("pdf2text")
+
+
+	it's repetitive,
+	but it's helpful for others
+	to use
+
+
+Pydoc
+
+
+	in Python have a utility
+
+	called Pydoc
+
+	can easily see the documentation
+	for a module
+
+	$ pydoc3 math
+	# can view the documentation
+	# for the built-in math module
+
+	copy and paste that url
+
+	now look at documentation
+	of our module
+
+	$ pydoc3 moshpdf.pdf2text
+
+	this pydoc has a few switches
+
+	one is w for writing
+	the documentation for a file
+
+	$ pydoc3 -w moshpdf.pdf2text
+
+	# it creates an html file
+
+	have another switch for loading
+	the documentation and python
+	standard library in a web server
+
+	$ pydoc3 -p 1234
+
+	// at port
+	http://localhost:1234
+
+	this displays
+
+	...

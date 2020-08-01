@@ -1,0 +1,276 @@
+comparison operators
+
+conditional statements
+
+ternary operators
+
+logical operator
+
+short-circuit evaluation
+
+chaining comparison operators
+
+quiz
+
+for loops
+
+for ... else
+
+nested loops
+
+iterables
+
+while loops
+
+infinite loops
+
+exercise
+
+/* ---------
+
+comparison operators
+
+  10 > 3
+
+  // results in a boolean value
+
+  10 != "10"
+  # True
+
+  can also compare strings
+
+  "bag" > "apple"
+  # True
+  # since bag comes after
+  # it's considered greater
+
+  "bag" == "BAG"
+  # ord("b")
+  # this returns ASCII,
+  # so the numeric representation
+  # of a char
+
+
+conditional statements
+
+  every program requires
+  making decisions
+
+  temperature = 35
+  if temperature > 30:
+    # execute
+  elif temperature == 20:
+    # execute
+  else:
+    # execute
+
+  must terminate the statement
+  with a colon
+
+  the else statement is optional
+
+
+ternary operators
+
+  technique for writing cleaner code
+
+  age = 22
+  if age >= 18:
+    print("Eligible")
+  else:
+    print("Not eligible")
+
+  // so can improve
+
+  age = 22
+  if age >= 18:
+    message = "Eligible"
+  else:
+    message = "Not eligible"
+
+  so when have this structure where
+  conditionals decide what value to
+  assign to a variable
+
+  can use the ternary operator
+
+  message = "Eligible" if age >= 18 else "Not eligible"
+
+logical operator
+
+  have three logical operators in Python
+
+  for complex conditions
+
+    and
+    or
+    not
+
+  --
+  high_income = True
+  good_credit = True
+  student = True
+
+  if high_income and good_credit:
+    print("Eligible")
+  else:
+    #
+
+  if not student:
+    print("not a student")
+  else:
+    print("student")
+
+  --
+
+  if (high_income or good_credit) and not student:
+    print("Eligible")
+
+short-circuit evaluation
+
+  Python interpreter
+  continues the evaluation
+  until it is considered false
+
+  it doesn't do comparisons
+  that it doesn't need to do
+  or is redundant
+
+  // this is a way for it to be
+  // more efficient
+
+chaining comparison operators
+
+  powerful technique for
+  writing clean code
+
+  # age should be between 18 and 65
+
+  age = 22
+  if age >= 18 and age < 65:
+    print("Eligible")
+
+
+  # could actually write as
+
+  if 18 <= age < 65:
+    print("Eligibile")
+
+
+quiz
+
+
+
+for loops
+
+  // use loops to perform repetition
+
+  # 3 will be 3 times
+  # range will default start at 0
+  for number in range(3):
+    print(number)
+
+  range(1, 10)
+
+  range(1, 10, 2)
+  # 3rd arg is the step,
+  # value to increment
+  # for each iteration
+
+for ... else
+
+  successful = True
+  for number in range(3):
+    print("Attempt")
+    if successful:
+      print("Successful")
+      break
+
+  # now consider
+
+  successful = False
+  for number in range(3):
+    print("Attempt")
+    if successful:
+      print("Successful")
+      break
+  else:
+    # this only will run
+    # if never break out
+    # explicitly
+    print("Attempted 3 times and failed")
+
+
+
+nested loops
+
+  for x in range(5):
+    for y in range(3):
+      print(f"({x}, {y})")
+
+
+iterables
+
+  so we know of type()
+  it returns the type of an object
+
+  type(5)
+  # <class 'int'>
+
+  type(range(5))
+  # <class 'range'>
+
+  # strings are also iterable
+  for char in "Python":
+    print(char)
+
+  # iterable
+  for x in range(5):
+    print(x)
+
+
+  for x in [1, 2, 3, 4]:
+    print(x)
+
+
+while loops
+
+  so for loops are used over
+  iterable objects
+
+  while loops are used to iterate
+  while a condition is true,
+  when we don't know exactly
+  when to terminate
+
+  just the condition under
+  which to terminate
+
+  number = 100
+  while number > 0:
+    print(number)
+    number //= 2
+    # so div with // makes it an integer
+
+  command = ""
+  while command.lower() != "quit":
+    command = input(">")
+    print("Echo", command)
+
+infinite loops
+
+  # program will run out of memory
+  # and crash
+
+exercise
+
+  # display the even numbers
+  # between 1 and 10
+
+  even_num_count = 0
+  for num in range(1, 11):
+    if num % 2 == 0:
+      print(num)
+      even_num_count += 1
+  else:
+    print(f"We have {even_num_count} numbers")
