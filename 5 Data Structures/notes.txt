@@ -287,7 +287,7 @@ sorting lists
   sorted(numbers, reverse=True)
 
 
-  what about sorted complex objects?
+  what about sorting complex objects?
 
   such as processing orders
 
@@ -994,18 +994,34 @@ exercise
 
   # find most repeated char
 
-  # brute force solution
+
 
   def maxChar(sentence):
-    dict = {}
-    max_char = sentence[0].lower()
-    for char in sentence:
-      char = char.lower()
-      if char in dict:
-        dict[char] += 1
-        max_char = char if dict[char] > dict[max_char]
-      else:
-        dict[char] = 1
-    return dict
 
-    ...
+
+  ----
+
+  mosh's implementation
+
+  use dictionary where char maps to count 
+
+  # for cleaner output when printing dictionaries
+  from pprint import pprint 
+
+  def findMostRepeatedChar(sentence):
+    char_frequency = {}
+    for char in sentence:
+      if char in char_frequency:
+        char_frequency[char] += 1
+      else:
+        char_frequency[char] = 1
+    pprint(char_frequency, width=1)
+    char_frequency_sorted = sorted(char_frequency.items(), key=lambda kv:kv[1], reverse=True)
+    print(char_frequency_sorted[0])
+  
+
+  # then sort by the frequency of characters 
+
+
+
+   

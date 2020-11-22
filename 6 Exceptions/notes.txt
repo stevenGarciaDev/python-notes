@@ -289,7 +289,7 @@ raising exceptions
 
 cost of raising exceptions
 
-	from timit import timeit
+	from timeit import timeit
 
 	# can calculate the execution time 
 	# of some code 
